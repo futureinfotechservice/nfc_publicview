@@ -10,14 +10,17 @@ void main() {
 }
 
 class listdata {
+  String user_id;
   String navigation;
 
   listdata({
+    required this.user_id,
     required this.navigation,
   });
 
   factory listdata.fromJson(Map<String, dynamic> json) {
     return listdata(
+      user_id: json['user_id'],
       navigation: json['navigation'],
     );
   }
@@ -33,8 +36,9 @@ class _MyAppState extends State<MyApp> {
    List<listdata> reportlist = [];
      // Future Insertdata(BuildContext context,String id) async {
     Future<List<listdata>> Insertdata(BuildContext context,String id) async {
+      print("jsgdjasfj"+id.toString());
       reportlist.clear();
-      var url = Uri.parse('https://nfc.futureinfotechservices.in/navigation_credentials.php');
+      var url = Uri.parse('https://nfc.futureinfotechservices.in/navigation_credentials1.php');
       var data = {
         'id': id.toString(),
       }; //to load an rowid  {item is the name used in php file}
@@ -46,6 +50,7 @@ class _MyAppState extends State<MyApp> {
       final items = json.decode(response.body);
       items.forEach((api) {
         final ab = new listdata(
+          user_id: api['user_id'],
           navigation: api['navigation'],
         );
         reportlist.add(ab);
@@ -71,19 +76,20 @@ class _MyAppState extends State<MyApp> {
           final pathSegments = settings.name?.split('/');
           if (int.parse(pathSegments!.length.toString()) > 1) {
             // final id = int.tryParse(pathSegments![1]);
-            final id = int.tryParse(pathSegments![1]);
+            final id = pathSegments![1];
             // if (id != null) {
             return MaterialPageRoute(
               builder: (context) => FutureBuilder(
                 future: Insertdata(context,id.toString()),
                 builder: (context, snapshot) {
                   print("egdjtu"+reportlist[0].navigation.toString());
+                  print("egfds"+reportlist[0].user_id.toString());
                   // print("egdjtu"+message.toString());
                   // if (message.toString()=="update profile") {
                   if (reportlist[0].navigation.toString()=="update profile") {
-                    return admin_update_profile(id.toString());
+                    return admin_update_profile(reportlist[0].user_id.toString());
                   } else {
-                    return public(id.toString());
+                    return public(reportlist[0].user_id.toString());
                   }
                 },
               ),

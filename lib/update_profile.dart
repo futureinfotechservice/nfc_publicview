@@ -61,9 +61,11 @@ class updateprofile_listdata {
   String blood_group;
   String about;
   String office_address;
+  String office_address2;
   String nature_of_business;
   String pincode;
   String google_map_link;
+  String google_map_link2;
   String profile_image;
   String banner_image;
   String upi_payment_scanner;
@@ -99,9 +101,11 @@ class updateprofile_listdata {
     required this.blood_group,
     required this.about,
     required this.office_address,
+    required this.office_address2,
     required this.nature_of_business,
     required this.pincode,
     required this.google_map_link,
+    required this.google_map_link2,
     required this.profile_image,
     required this.banner_image,
     required this.upi_payment_scanner,
@@ -139,9 +143,11 @@ class updateprofile_listdata {
       blood_group: json['blood_group'],
       about: json['about'],
       office_address: json['office_address'],
+      office_address2: json['office_address2'],
       nature_of_business: json['nature_of_business'],
       pincode: json['pincode'],
       google_map_link: json['google_map_link'],
+      google_map_link2: json['google_map_link2'],
       profile_image: json['profile_image'],
       banner_image: json['banner_image'],
       upi_payment_scanner: json['upi_payment_scanner'],
@@ -235,6 +241,9 @@ class admin_update_profile2 extends State<admin_update_profile> {
   TextEditingController youtubecontroller = TextEditingController();
   TextEditingController pinterestcontroller = TextEditingController();
 
+  TextEditingController officeaddress2controller = TextEditingController();
+  TextEditingController googlemaplink1controller = TextEditingController();
+
   String country_contactnumber = 'IN';
   String country_contactnumber2 = 'IN';
   String country_whatsappnumber2 = 'IN';
@@ -323,7 +332,7 @@ class admin_update_profile2 extends State<admin_update_profile> {
     final company_id = prefs.getString('company_id') ?? '';
 
     var url = Uri.parse(
-        'https://nfc.futureinfotechservices.in/updateprofile_list.php');
+        'https://nfc.futureinfotechservices.in/updateprofile_list1.php');
     var data = {
       // 'user_id': userid.toString(),
       'user_id': id.toString(),
@@ -349,9 +358,11 @@ class admin_update_profile2 extends State<admin_update_profile> {
         blood_group: api['blood_group'],
         about: api['about'],
         office_address: api['office_address'],
+        office_address2: api['office_address2'],
         nature_of_business: api['nature_of_business'],
         pincode: api['pincode'],
         google_map_link: api['google_map_link'],
+        google_map_link2: api['google_map_link2'],
         profile_image: api['profile_image'],
         banner_image: api['banner_image'],
         upi_payment_scanner: api['upi_payment_scanner'],
@@ -396,6 +407,8 @@ class admin_update_profile2 extends State<admin_update_profile> {
     aboutcontroller.text = updateprofilelist[0].about.toString();
     officeaddresscontroller.text =
         updateprofilelist[0].office_address.toString();
+    officeaddress2controller.text =
+        updateprofilelist[0].office_address2.toString();
     natureofbusinesscontroller.text =
         updateprofilelist[0].nature_of_business.toString();
     pincodecontroller.text = (updateprofilelist[0].pincode.toString() == '0')
@@ -403,6 +416,8 @@ class admin_update_profile2 extends State<admin_update_profile> {
         : updateprofilelist[0].pincode.toString();
     googlemaplinkcontroller.text =
         updateprofilelist[0].google_map_link.toString();
+    googlemaplink1controller.text =
+        updateprofilelist[0].google_map_link2.toString();
     facebookdetailscontroller.text =
         updateprofilelist[0].facebook_details.toString();
     instagramdetailscontroller.text =
@@ -466,10 +481,10 @@ class admin_update_profile2 extends State<admin_update_profile> {
     final company_id = prefs.getString('company_id') ?? '';
 
     var url = Uri.parse(
-        'https://nfc.futureinfotechservices.in/updateprofile_insert1.php');
+        'https://nfc.futureinfotechservices.in/updateprofile_insert2.php');
     var data = {
       // 'user_id': userid.toString(),
-      'user_id': id.toString(),
+      'user_id': (userid.toString()=="")?'0' : id.toString(),
       'company_id': company_id.toString(),
       'full_name': fullnamecontroller.text.toString(),
       'contact_number': contactnumbercontroller.text.toString(),
@@ -483,9 +498,11 @@ class admin_update_profile2 extends State<admin_update_profile> {
       'blood_group': bloodgroupcontroller.text.toString(),
       'about': aboutcontroller.text.toString(),
       'office_address': officeaddresscontroller.text.toString(),
+      'office_address2': officeaddress2controller.text.toString(),
       'nature_of_business': natureofbusinesscontroller.text.toString(),
       'pincode': pincodecontroller.text.toString(),
       'google_map_link': googlemaplinkcontroller.text.toString(),
+      'google_map_link2': googlemaplink1controller.text.toString(),
       'filename': _fileName.toString(),
       'profile_image': base64Encode(updateBytes),
       'filename1': _fileName1.toString(),
@@ -1482,49 +1499,6 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                                           0xFF505D6E)),
                                                   maxLines: 300,
                                                   controller:
-                                                  officeaddresscontroller,
-                                                  decoration:
-                                                  InputDecoration(
-                                                      border:
-                                                      OutlineInputBorder(
-                                                        borderRadius:
-                                                        BorderRadius
-                                                            .circular(
-                                                            8.0),
-                                                        borderSide:
-                                                        BorderSide
-                                                            .none,
-                                                      ),
-                                                      filled: true,
-                                                      fillColor: Colors
-                                                          .blueGrey
-                                                          .shade50,
-                                                      labelText:
-                                                      "Your Office Address",
-                                                      labelStyle: TextStyle(
-                                                          color: Colors
-                                                              .blueGrey),
-                                                      prefixIcon:
-                                                      Icon(
-                                                        Icons
-                                                            .add_business,
-                                                        color: Colors
-                                                            .blueGrey[
-                                                        300],
-                                                      )),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                height: 15,
-                                              ),
-                                              Container(
-                                                height: 100,
-                                                child: TextField(
-                                                  style: TextStyle(
-                                                      color: Color(
-                                                          0xFF505D6E)),
-                                                  maxLines: 300,
-                                                  controller:
                                                   natureofbusinesscontroller,
                                                   decoration:
                                                   InputDecoration(
@@ -1557,42 +1531,86 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                                       )),
                                                 ),
                                               ),
+                                              // SizedBox(
+                                              //   height: 15,
+                                              // ),
+                                              // TextField(
+                                              //   style: TextStyle(
+                                              //       color: Color(
+                                              //           0xFF505D6E)),
+                                              //   controller:
+                                              //   pincodecontroller,
+                                              //   decoration:
+                                              //   InputDecoration(
+                                              //       border:
+                                              //       OutlineInputBorder(
+                                              //         borderRadius:
+                                              //         BorderRadius
+                                              //             .circular(
+                                              //             8.0),
+                                              //         borderSide:
+                                              //         BorderSide
+                                              //             .none,
+                                              //       ),
+                                              //       filled: true,
+                                              //       fillColor: Colors
+                                              //           .blueGrey
+                                              //           .shade50,
+                                              //       labelText:
+                                              //       "Pin Code",
+                                              //       labelStyle: TextStyle(
+                                              //           color: Colors
+                                              //               .blueGrey),
+                                              //       prefixIcon: Icon(
+                                              //         Icons.pin,
+                                              //         color: Colors
+                                              //             .blueGrey[
+                                              //         300],
+                                              //       )),
+                                              // ),
                                               SizedBox(
                                                 height: 15,
                                               ),
-                                              TextField(
-                                                style: TextStyle(
-                                                    color: Color(
-                                                        0xFF505D6E)),
-                                                controller:
-                                                pincodecontroller,
-                                                decoration:
-                                                InputDecoration(
-                                                    border:
-                                                    OutlineInputBorder(
-                                                      borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          8.0),
-                                                      borderSide:
-                                                      BorderSide
-                                                          .none,
-                                                    ),
-                                                    filled: true,
-                                                    fillColor: Colors
-                                                        .blueGrey
-                                                        .shade50,
-                                                    labelText:
-                                                    "Pin Code",
-                                                    labelStyle: TextStyle(
+
+                                              Container(
+                                                height: 100,
+                                                child: TextField(
+                                                  style: TextStyle(
+                                                      color: Color(
+                                                          0xFF505D6E)),
+                                                  maxLines: 300,
+                                                  controller:
+                                                  officeaddresscontroller,
+                                                  decoration:
+                                                  InputDecoration(
+                                                      border:
+                                                      OutlineInputBorder(
+                                                        borderRadius:
+                                                        BorderRadius
+                                                            .circular(
+                                                            8.0),
+                                                        borderSide:
+                                                        BorderSide
+                                                            .none,
+                                                      ),
+                                                      filled: true,
+                                                      fillColor: Colors
+                                                          .blueGrey
+                                                          .shade50,
+                                                      labelText:
+                                                      "Address1",
+                                                      labelStyle: TextStyle(
+                                                          color: Colors
+                                                              .blueGrey),
+                                                      prefixIcon:
+                                                      Icon(
+                                                        Icons
+                                                            .add_business_outlined,
                                                         color: Colors
-                                                            .blueGrey),
-                                                    prefixIcon: Icon(
-                                                      Icons.pin,
-                                                      color: Colors
-                                                          .blueGrey[
-                                                      300],
-                                                    )),
+                                                            .blueGrey[
+                                                        300],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(
                                                 height: 15,
@@ -1620,7 +1638,89 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                                         .blueGrey
                                                         .shade50,
                                                     labelText:
-                                                    "Google Map Link",
+                                                    "Google Map Link for Address1",
+                                                    labelStyle: TextStyle(
+                                                        color: Colors
+                                                            .blueGrey),
+                                                    prefixIcon: Icon(
+                                                      Icons
+                                                          .location_on_outlined,
+                                                      color: Colors
+                                                          .blueGrey[
+                                                      300],
+                                                    )),
+                                              ),
+                                              SizedBox(
+                                                height: 15,
+                                              ),
+
+                                              Container(
+                                                height: 100,
+                                                child: TextField(
+                                                  style: TextStyle(
+                                                      color: Color(
+                                                          0xFF505D6E)),
+                                                  maxLines: 300,
+                                                  controller:
+                                                  officeaddress2controller,
+                                                  decoration:
+                                                  InputDecoration(
+                                                      border:
+                                                      OutlineInputBorder(
+                                                        borderRadius:
+                                                        BorderRadius
+                                                            .circular(
+                                                            8.0),
+                                                        borderSide:
+                                                        BorderSide
+                                                            .none,
+                                                      ),
+                                                      filled: true,
+                                                      fillColor: Colors
+                                                          .blueGrey
+                                                          .shade50,
+                                                      labelText:
+                                                      "Address2",
+                                                      labelStyle: TextStyle(
+                                                          color: Colors
+                                                              .blueGrey),
+                                                      prefixIcon:
+                                                      Icon(
+                                                        Icons
+                                                            .add_business,
+                                                        color: Colors
+                                                            .blueGrey[
+                                                        300],
+                                                      )),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 15,
+                                              ),
+                                              TextField(
+                                                style: TextStyle(
+                                                    color: Color(
+                                                        0xFF505D6E)),
+                                                controller:
+                                                googlemaplink1controller,
+                                                decoration:
+                                                InputDecoration(
+                                                    border:
+                                                    OutlineInputBorder(
+                                                      borderRadius:
+                                                      BorderRadius
+                                                          .circular(
+                                                          8.0),
+                                                      borderSide:
+                                                      BorderSide
+                                                          .none,
+                                                    ),
+                                                    filled: true,
+                                                    fillColor: Colors
+                                                        .blueGrey
+                                                        .shade50,
+                                                    labelText:
+                                                    "Google Map Link for Address2",
                                                     labelStyle: TextStyle(
                                                         color: Colors
                                                             .blueGrey),
@@ -1739,6 +1839,11 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                                                   10),
                                                             ),
                                                             height: 160,
+                                                            width: MediaQuery.of(
+                                                                context)
+                                                                .size
+                                                                .width /
+                                                                2.8,
                                                             child: Column(
                                                                 mainAxisAlignment:
                                                                 MainAxisAlignment
@@ -1885,6 +1990,11 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                                                   10),
                                                             ),
                                                             height: 160,
+                                                            width: MediaQuery.of(
+                                                                context)
+                                                                .size
+                                                                .width /
+                                                                2.8,
                                                             child: Column(
                                                                 mainAxisAlignment:
                                                                 MainAxisAlignment
