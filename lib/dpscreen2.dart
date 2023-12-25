@@ -9,6 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'dart:html' as html;
 import 'package:vcard_maintained/vcard_maintained.dart';
 import 'dart:js' as js;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import'dart:io' show Platform;
 
 
@@ -731,9 +732,9 @@ class public1 extends State<public> {
                                                                         .size
                                                                         .width *
                                                                     .04,
-                                                                // fontWeight:
-                                                                //     FontWeight
-                                                                //         .bold
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold
                                                             ))),
                                                     if (listdata1[0]
                                                             .phone
@@ -836,7 +837,7 @@ class public1 extends State<public> {
                                                             .mobile
                                                             .toString() ==
                                                         '0')
-                                                ? Offset(0.5, 0.3)
+                                                ? Offset(0.5, 0.2)
                                                 : Offset(0.5, 0.5),
                                         child: Align(
                                             // alignment: Alignment.,
@@ -898,9 +899,9 @@ class public1 extends State<public> {
                                                                       .size
                                                                       .width *
                                                                   .04,
-                                                              // fontWeight:
-                                                              //     FontWeight
-                                                              //         .bold
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold
                                                           ))),
                                                   if (listdata1[0]
                                                           .email
@@ -1004,7 +1005,7 @@ class public1 extends State<public> {
                                               .email
                                               .toString() ==
                                               '')
-                                          ? Offset(0.5, 0.3)
+                                          ? Offset(0.5, 0.2)
                                           : Offset(0.5, 0.5),
                                        //Offset(0.5, 0.5),
                                       child: Align(
@@ -1080,9 +1081,9 @@ class public1 extends State<public> {
                                                                       .size
                                                                       .width *
                                                                   .04,
-                                                              // fontWeight:
-                                                              //     FontWeight
-                                                              //         .bold
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold
                                                           ))),
                                                   if (listdata1[0]
                                                           .website
@@ -1134,7 +1135,7 @@ class public1 extends State<public> {
                                         ),
                                       ]),
                                   FractionalTranslation(
-                                      translation: Offset(0.5, 0.3),
+                                      translation: Offset(0.5, 0.2),
                                       child: Align(
                                         // alignment: Alignment.,
                                         child: SizedBox(
@@ -1214,9 +1215,9 @@ class public1 extends State<public> {
                                                                         .size
                                                                         .width *
                                                                     .04,
-                                                                // fontWeight:
-                                                                //     FontWeight
-                                                                //         .bold
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold
                                                             ))),
                                                     if (listdata1[0]
                                                             .address
@@ -1343,9 +1344,9 @@ class public1 extends State<public> {
                                                                         .size
                                                                         .width *
                                                                     .04,
-                                                                // fontWeight:
-                                                                //     FontWeight
-                                                                //         .bold
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold
                                                             ))),
                                                     if (listdata1[0]
                                                             .office_address2
@@ -1750,7 +1751,7 @@ URL;WORK;PREF:${listdata1[0].website.toString() ?? ''}
 END:VCARD''';
 
 
-                                  final encodedContent = (Platform.isIOS)?utf8.encode(vCardContentIOS):utf8.encode(vCardContent);
+                                  final encodedContent = (kIsWeb)?utf8.encode(vCardContent):utf8.encode(vCardContentIOS);
 
                                   final blob =
                                       html.Blob([encodedContent], 'text/vcard');

@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:html';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -12,6 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dpscreen2.dart';
 import 'main.dart';
 import 'package:http/http.dart' as http;
+import 'dart:html' as html;
 
 class listdata {
   String profile_image;
@@ -173,8 +176,8 @@ class updateprofile_listdata {
 }
 
 class admin_update_profile extends StatefulWidget {
-
   String? id;
+
   admin_update_profile(this.id);
 
   @override
@@ -182,9 +185,16 @@ class admin_update_profile extends StatefulWidget {
 }
 
 class admin_update_profile2 extends State<admin_update_profile> {
+  bool isLoading = false;
+  bool isLoading1 = false;
+  bool isLoading3 = false;
+  bool isLoading4 = false;
+  bool isLoading5 = false;
+
   late Future<List> report_Future;
   List<listdata> reportlist = [];
   String? id;
+
   admin_update_profile2(this.id);
 
   String updateprofile = '0';
@@ -274,7 +284,7 @@ class admin_update_profile2 extends State<admin_update_profile> {
     // print(userid.toString());
     // print(company_id.toString());
     var url =
-    Uri.parse('https://nfc.futureinfotechservices.in/profile_image.php');
+        Uri.parse('https://nfc.futureinfotechservices.in/profile_image.php');
 
     var data = {
       // 'userid': userid.toString(),
@@ -389,13 +399,13 @@ class admin_update_profile2 extends State<admin_update_profile> {
 
     fullnamecontroller.text = updateprofilelist[0].full_name.toString();
     contactnumbercontroller.text =
-    (updateprofilelist[0].contact_number.toString() == '0')
-        ? ''
-        : updateprofilelist[0].contact_number.toString();
+        (updateprofilelist[0].contact_number.toString() == '0')
+            ? ''
+            : updateprofilelist[0].contact_number.toString();
     contactnumber2controller.text =
-    (updateprofilelist[0].contact_number2.toString() == '0')
-        ? ''
-        : updateprofilelist[0].contact_number2.toString();
+        (updateprofilelist[0].contact_number2.toString() == '0')
+            ? ''
+            : updateprofilelist[0].contact_number2.toString();
     companynamecontroller.text = updateprofilelist[0].company_name.toString();
     designationcontroller.text = updateprofilelist[0].designation.toString();
     emailaddresscontroller.text = updateprofilelist[0].email_address.toString();
@@ -427,9 +437,9 @@ class admin_update_profile2 extends State<admin_update_profile> {
     twitterdetailscontroller.text =
         updateprofilelist[0].twitter_details.toString();
     whatsappnocontroller.text =
-    (updateprofilelist[0].whatsapp_no.toString() == '0')
-        ? ''
-        : updateprofilelist[0].whatsapp_no.toString();
+        (updateprofilelist[0].whatsapp_no.toString() == '0')
+            ? ''
+            : updateprofilelist[0].whatsapp_no.toString();
     telegramurlcontroller.text = updateprofilelist[0].telegram_url.toString();
     youtubecontroller.text = updateprofilelist[0].youtube.toString();
     pinterestcontroller.text = updateprofilelist[0].pinterest.toString();
@@ -442,9 +452,9 @@ class admin_update_profile2 extends State<admin_update_profile> {
     bannerimagename = updateprofilelist[0].banner_imageindex.toString();
     urlimagename = updateprofilelist[0].upi_payment_scannerindex.toString();
     broucherimage =
-    (updateprofilelist[0].broucherimage_index.toString() == 'null')
-        ? ''
-        : updateprofilelist[0].broucherimage_index.toString();
+        (updateprofilelist[0].broucherimage_index.toString() == 'null')
+            ? ''
+            : updateprofilelist[0].broucherimage_index.toString();
 
     // String pdfbroucherimage = updateprofilelist[0].broucher.toString();
     //
@@ -484,7 +494,7 @@ class admin_update_profile2 extends State<admin_update_profile> {
         'https://nfc.futureinfotechservices.in/updateprofile_insert2.php');
     var data = {
       // 'user_id': userid.toString(),
-      'user_id': (userid.toString()=="")?'0' : id.toString(),
+      'user_id': (id.toString() == "") ? '0' : id.toString(),
       'company_id': company_id.toString(),
       'full_name': fullnamecontroller.text.toString(),
       'contact_number': contactnumbercontroller.text.toString(),
@@ -540,21 +550,20 @@ class admin_update_profile2 extends State<admin_update_profile> {
     // print(message.toString());
 
     if (message.toString().contains('Updated successfully')) {
+      Navigator.of(context).pop();
       for (int i = 0; i < _fileBytesList5.length; i++) {
         Insertimagedata(context, _fileNames5List[i].toString(),
             _fileBytesList5[i], i, _fileBytesList5.length, message.toString());
       }
       //print("length"+_fileBytesList5.length.toString());
       if (_fileBytesList5.length == 0) {
-
-        Navigator.of(context, rootNavigator: true)
-            .pushAndRemoveUntil(
+        Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
           MaterialPageRoute(
             builder: (BuildContext context) {
               return public(id.toString());
             },
           ),
-              (_) => false,
+          (_) => false,
         );
 
         //print("close");
@@ -576,20 +585,19 @@ class admin_update_profile2 extends State<admin_update_profile> {
         setState(() {});
       }
     } else if (message.toString().contains('Inserted successfully')) {
+      Navigator.of(context).pop();
       for (int i = 0; i < _fileBytesList5.length; i++) {
         Insertimagedata(context, _fileNames5List[i].toString(),
             _fileBytesList5[i], i, _fileBytesList5.length, message.toString());
       }
       if (_fileBytesList5.length == 0) {
-
-        Navigator.of(context, rootNavigator: true)
-            .pushAndRemoveUntil(
+        Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
           MaterialPageRoute(
             builder: (BuildContext context) {
               return public(id.toString());
             },
           ),
-              (_) => false,
+          (_) => false,
         );
 
         // Navigator.pop(context);
@@ -610,6 +618,7 @@ class admin_update_profile2 extends State<admin_update_profile> {
         setState(() {});
       }
     } else {
+      Navigator.of(context).pop();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(message.toString()), backgroundColor: Colors.red));
       setState(() {});
@@ -645,14 +654,13 @@ class admin_update_profile2 extends State<admin_update_profile> {
       // print(ivalue);
       // print(lengthlist);
       if ((ivalue + 1) == lengthlist) {
-        Navigator.of(context, rootNavigator: true)
-            .pushAndRemoveUntil(
+        Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
           MaterialPageRoute(
             builder: (BuildContext context) {
               return public(id.toString());
             },
           ),
-              (_) => false,
+          (_) => false,
         );
 
         // print("open");
@@ -683,7 +691,8 @@ class admin_update_profile2 extends State<admin_update_profile> {
     }
   }
 
-  Future Deleteimagedata(BuildContext context, String delete_id,int index) async {
+  Future Deleteimagedata(
+      BuildContext context, String delete_id, int index) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final userid = prefs.getString('id') ?? '';
     print("delete id" + delete_id.toString());
@@ -699,7 +708,7 @@ class admin_update_profile2 extends State<admin_update_profile> {
 
     if (message.toString().contains('Deleted successfully')) {
       setState(() {
-        print("deleted index"+index.toString());
+        print("deleted index" + index.toString());
         multiplelist.removeAt(index);
       });
 
@@ -797,7 +806,7 @@ class admin_update_profile2 extends State<admin_update_profile> {
 
   @override
   Widget build(BuildContext context) {
-   //final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
+    //final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
 
     return Scaffold(
         backgroundColor: Colors.white,
@@ -808,45 +817,45 @@ class admin_update_profile2 extends State<admin_update_profile> {
               automaticallyImplyLeading: false,
               backgroundColor: Colors.white,
               title: Container(
-                //width: 400,
+                  //width: 400,
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        // Padding(
-                        //     padding: EdgeInsets.only(top: 4),
-                        //     child: Tooltip(
-                        //         message: "Home",
-                        //         child: InkWell(
-                        //           onTap: () {
-                        //             Navigator.of(context, rootNavigator: true)
-                        //                 .pushAndRemoveUntil(
-                        //               MaterialPageRoute(
-                        //                 builder: (BuildContext context) {
-                        //                   return admin_home();
-                        //                 },
-                        //               ),
-                        //                   (_) => false,
-                        //             );
-                        //           },
-                        //           borderRadius: BorderRadius.circular(2),
-                        //           child: Container(
-                        //             padding: const EdgeInsets.all(4),
-                        //             child: Icon(Icons.home,
-                        //                 color: Colors.grey, size: 25),
-                        //           ),
-                        //         ))),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        // Row(children: [
-                        Image.asset('assects/etouch_cards.jpg',
-                            width: 150, height: 100),
-                        SizedBox(
-                          width: 5,
-                        )
-                        //  ])
-                      ])),
+                    // Padding(
+                    //     padding: EdgeInsets.only(top: 4),
+                    //     child: Tooltip(
+                    //         message: "Home",
+                    //         child: InkWell(
+                    //           onTap: () {
+                    //             Navigator.of(context, rootNavigator: true)
+                    //                 .pushAndRemoveUntil(
+                    //               MaterialPageRoute(
+                    //                 builder: (BuildContext context) {
+                    //                   return admin_home();
+                    //                 },
+                    //               ),
+                    //                   (_) => false,
+                    //             );
+                    //           },
+                    //           borderRadius: BorderRadius.circular(2),
+                    //           child: Container(
+                    //             padding: const EdgeInsets.all(4),
+                    //             child: Icon(Icons.home,
+                    //                 color: Colors.grey, size: 25),
+                    //           ),
+                    //         ))),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    // Row(children: [
+                    Image.asset('assects/etouch_cards.jpg',
+                        width: 150, height: 100),
+                    SizedBox(
+                      width: 5,
+                    )
+                    //  ])
+                  ])),
               actions: [
                 InkWell(
                   onTap: () {},
@@ -865,19 +874,19 @@ class admin_update_profile2 extends State<admin_update_profile> {
                           builder: (context, snapshot) {
                             return snapshot.hasData
                                 ? ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: (profile_image.toString() == 'null'||profile_image.toString() == '')
-                                  ? Image.asset(
-                                  'assects/person_icon.png',
-                                  width: 50,
-                                  height: 50)
-                                  : Image.network(
-                                  profile_image.toString(),
-                                  width: 50,
-                                  height: 50),
-                            )
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: (profile_image.toString() ==
+                                                'null' ||
+                                            profile_image.toString() == '')
+                                        ? Image.asset('assects/person_icon.png',
+                                            width: 50, height: 50)
+                                        : Image.network(
+                                            profile_image.toString(),
+                                            width: 50,
+                                            height: 50),
+                                  )
                                 : Image.asset('assects/person_icon.png',
-                                width: 50, height: 50);
+                                    width: 50, height: 50);
                           }),
                     ),
                   ),
@@ -895,7 +904,7 @@ class admin_update_profile2 extends State<admin_update_profile> {
                 scrollController.animateTo(0,
                     duration: Duration(milliseconds: 500), //duration of scroll
                     curve: Curves.fastOutSlowIn //scroll type
-                );
+                    );
               },
               child: Icon(Icons.arrow_upward),
               backgroundColor: Color(0xFFCC9B60),
@@ -904,8 +913,10 @@ class admin_update_profile2 extends State<admin_update_profile> {
             ),
           ),
         ),
-        body:SingleChildScrollView(
-          child: Column(
+        body:
+        SingleChildScrollView(
+          child:
+          Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -915,10 +926,8 @@ class admin_update_profile2 extends State<admin_update_profile> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                   ),
-                  padding: const EdgeInsets.only(
-                      left: 15.0, top: 4, bottom: 4),
+                  padding: const EdgeInsets.only(left: 15.0, top: 4, bottom: 4),
                   child: Text(
-
                     ' Update Profile ',
                     style: TextStyle(
                       fontSize: 20,
@@ -928,112 +937,101 @@ class admin_update_profile2 extends State<admin_update_profile> {
                   ),
                 ),
                 SizedBox(height: 2),
-                Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.blueGrey.shade50,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        height: MediaQuery.of(context).size.height / 1.4,
-                        width: double.infinity,
-                        child: Padding(
-                            padding: EdgeInsets.all(20),
-                            child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                height:
-                                MediaQuery.of(context).size.height /
-                                    1.4,
-                                width: double.infinity,
-                                child: SingleChildScrollView(
-                                    controller: scrollController,
-                                    scrollDirection: Axis.vertical,
-                                    child: Padding(
+                // Padding(
+                //     padding: EdgeInsets.all(20),
+                //     child: Container(
+                //         decoration: BoxDecoration(
+                //           color: Colors.blueGrey.shade50,
+                //           borderRadius: BorderRadius.circular(10),
+                //         ),
+                //         height: MediaQuery.of(context).size.height / 1.4,
+                //         width: double.infinity,
+                //         child: Padding(
+                //             padding: EdgeInsets.all(20),
+                //             child: Container(
+                //                 decoration: BoxDecoration(
+                //                   color: Colors.white,
+                //                   borderRadius: BorderRadius.circular(10),
+                //                 ),
+                //                 height:
+                //                     MediaQuery.of(context).size.height / 1.4,
+                //                 width: double.infinity,
+                //                 child:
+                //                 SingleChildScrollView(
+                //                     //controller: scrollController,
+                //                     scrollDirection: Axis.vertical,
+                //                     child:
+                                    Padding(
                                         padding: EdgeInsets.all(20),
                                         child: Column(
                                             mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                                MainAxisAlignment.start,
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                             children: [
                                               SizedBox(
                                                 height: 10,
                                               ),
                                               Row(
                                                   mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .start,
+                                                      MainAxisAlignment.start,
                                                   crossAxisAlignment:
-                                                  CrossAxisAlignment
-                                                      .start,
+                                                      CrossAxisAlignment.start,
                                                   children: [
-                                                    Text(
-                                                        "Profile Details",
+                                                    Text("Profile Details",
                                                         style: TextStyle(
                                                             fontSize: 18,
-                                                            color: Colors
-                                                                .black,
+                                                            color: Colors.black,
                                                             fontWeight:
-                                                            FontWeight
-                                                                .bold)),
+                                                                FontWeight
+                                                                    .bold)),
                                                   ]),
                                               SizedBox(
                                                 height: 33,
                                               ),
                                               TextField(
-                                                controller:
-                                                fullnamecontroller,
-                                                decoration:
-                                                InputDecoration(
-                                                  // floatingLabelBehavior:
-                                                  //     FloatingLabelBehavior
-                                                  //         .never,
-                                                    border:
-                                                    OutlineInputBorder(
+                                                controller: fullnamecontroller,
+                                                decoration: InputDecoration(
+                                                    // floatingLabelBehavior:
+                                                    //     FloatingLabelBehavior
+                                                    //         .never,
+                                                    border: OutlineInputBorder(
                                                       borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          8.0),
+                                                          BorderRadius.circular(
+                                                              8.0),
                                                       borderSide:
-                                                      BorderSide
-                                                          .none,
+                                                          BorderSide.none,
                                                     ),
                                                     filled: true,
-                                                    fillColor: Colors
-                                                        .blueGrey
-                                                        .shade50,
-                                                    labelText:
-                                                    "Full Name",
+                                                    fillColor:
+                                                        Colors.blueGrey.shade50,
+                                                    labelText: "Full Name",
                                                     labelStyle: TextStyle(
-                                                        color: Colors
-                                                            .blueGrey),
+                                                        color: Colors.blueGrey),
                                                     prefixIcon: Icon(
                                                       Icons.person,
-                                                      color: Colors
-                                                          .blueGrey[
-                                                      300],
+                                                      color:
+                                                          Colors.blueGrey[300],
                                                     )),
                                                 style: TextStyle(
-                                                    color: Color(
-                                                        0xFF505D6E)),
+                                                    color: Color(0xFF505D6E)),
                                               ),
                                               SizedBox(
                                                 height: 15,
                                               ),
                                               FutureBuilder(
-                                                  future:
-                                                  downloadjson_Future,
-                                                  builder: (context,
-                                                      snapshot) {
+                                                  future: downloadjson_Future,
+                                                  builder: (context, snapshot) {
                                                     return IntlPhoneField(
+                                                      autovalidateMode:
+                                                          AutovalidateMode
+                                                              .disabled,
+                                                      disableLengthCheck: true,
                                                       controller:
-                                                      contactnumbercontroller,
+                                                          contactnumbercontroller,
+
                                                       keyboardType:
-                                                      TextInputType
-                                                          .number,
+                                                          TextInputType.number,
                                                       inputFormatters: <
                                                           TextInputFormatter>[
                                                         FilteringTextInputFormatter
@@ -1043,46 +1041,43 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                                           color: Color(
                                                               0xFF505D6E)),
                                                       decoration:
-                                                      InputDecoration(
+                                                          InputDecoration(
                                                         border:
-                                                        OutlineInputBorder(
+                                                            OutlineInputBorder(
                                                           borderRadius:
-                                                          BorderRadius
-                                                              .circular(
-                                                              8.0),
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      8.0),
                                                           borderSide:
-                                                          BorderSide
-                                                              .none,
+                                                              BorderSide.none,
                                                         ),
                                                         filled: true,
                                                         fillColor: Colors
-                                                            .blueGrey
-                                                            .shade50,
+                                                            .blueGrey.shade50,
                                                         labelText:
-                                                        "Contact Number",
+                                                            "Contact Number",
                                                         labelStyle: TextStyle(
                                                             color: Colors
                                                                 .blueGrey),
                                                       ),
+
                                                       initialCountryCode:
-                                                      //country_contactnumber =
-                                                      updateprofilelist[
-                                                      0]
-                                                          .country_contactnumber
-                                                          .toString(),
+                                                          //country_contactnumber =
+                                                          updateprofilelist[0]
+                                                              .country_contactnumber
+                                                              .toString(),
                                                       onCountryChanged:
                                                           (country) {
                                                         print(
                                                             'Country changed to: ' +
-                                                                country
-                                                                    .name);
+                                                                country.name);
                                                         print(
                                                             'Country changed to: ' +
-                                                                country
-                                                                    .code);
+                                                                country.code);
                                                         country_contactnumber =
                                                             country.code;
                                                       },
+
                                                       // onChanged: (phone) {
                                                       //   print(phone
                                                       //       .countryISOCode);
@@ -1096,16 +1091,17 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                                 height: 15,
                                               ),
                                               FutureBuilder(
-                                                  future:
-                                                  downloadjson_Future,
-                                                  builder: (context,
-                                                      snapshot) {
+                                                  future: downloadjson_Future,
+                                                  builder: (context, snapshot) {
                                                     return IntlPhoneField(
+                                                      autovalidateMode:
+                                                          AutovalidateMode
+                                                              .disabled,
+                                                      disableLengthCheck: true,
                                                       controller:
-                                                      contactnumber2controller,
+                                                          contactnumber2controller,
                                                       keyboardType:
-                                                      TextInputType
-                                                          .number,
+                                                          TextInputType.number,
                                                       inputFormatters: <
                                                           TextInputFormatter>[
                                                         FilteringTextInputFormatter
@@ -1115,43 +1111,38 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                                           color: Color(
                                                               0xFF505D6E)),
                                                       decoration:
-                                                      InputDecoration(
+                                                          InputDecoration(
                                                         border:
-                                                        OutlineInputBorder(
+                                                            OutlineInputBorder(
                                                           borderRadius:
-                                                          BorderRadius
-                                                              .circular(
-                                                              8.0),
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      8.0),
                                                           borderSide:
-                                                          BorderSide
-                                                              .none,
+                                                              BorderSide.none,
                                                         ),
                                                         filled: true,
                                                         fillColor: Colors
-                                                            .blueGrey
-                                                            .shade50,
+                                                            .blueGrey.shade50,
                                                         labelText:
-                                                        "Alternate Phone Number",
+                                                            "Alternate Phone Number",
                                                         labelStyle: TextStyle(
                                                             color: Colors
                                                                 .blueGrey),
                                                       ),
                                                       initialCountryCode:
-                                                      // country_contactnumber2 =
-                                                      updateprofilelist[
-                                                      0]
-                                                          .country_contactnumber2
-                                                          .toString(),
+                                                          // country_contactnumber2 =
+                                                          updateprofilelist[0]
+                                                              .country_contactnumber2
+                                                              .toString(),
                                                       onCountryChanged:
                                                           (country) {
                                                         print(
                                                             'Country changed to: ' +
-                                                                country
-                                                                    .name);
+                                                                country.name);
                                                         print(
                                                             'Country changed to: ' +
-                                                                country
-                                                                    .code);
+                                                                country.code);
                                                         country_contactnumber2 =
                                                             country.code;
                                                       },
@@ -1162,36 +1153,27 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                               ),
                                               TextField(
                                                 style: TextStyle(
-                                                    color: Color(
-                                                        0xFF505D6E)),
+                                                    color: Color(0xFF505D6E)),
                                                 controller:
-                                                companynamecontroller,
-                                                decoration:
-                                                InputDecoration(
-                                                    border:
-                                                    OutlineInputBorder(
+                                                    companynamecontroller,
+                                                decoration: InputDecoration(
+                                                    border: OutlineInputBorder(
                                                       borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          8.0),
+                                                          BorderRadius.circular(
+                                                              8.0),
                                                       borderSide:
-                                                      BorderSide
-                                                          .none,
+                                                          BorderSide.none,
                                                     ),
                                                     filled: true,
-                                                    fillColor: Colors
-                                                        .blueGrey
-                                                        .shade50,
-                                                    labelText:
-                                                    "Company Name",
+                                                    fillColor:
+                                                        Colors.blueGrey.shade50,
+                                                    labelText: "Company Name",
                                                     labelStyle: TextStyle(
-                                                        color: Colors
-                                                            .blueGrey),
+                                                        color: Colors.blueGrey),
                                                     prefixIcon: Icon(
                                                       Icons.business,
-                                                      color: Colors
-                                                          .blueGrey[
-                                                      300],
+                                                      color:
+                                                          Colors.blueGrey[300],
                                                     )),
                                               ),
                                               SizedBox(
@@ -1199,36 +1181,27 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                               ),
                                               TextField(
                                                 style: TextStyle(
-                                                    color: Color(
-                                                        0xFF505D6E)),
+                                                    color: Color(0xFF505D6E)),
                                                 controller:
-                                                designationcontroller,
-                                                decoration:
-                                                InputDecoration(
-                                                    border:
-                                                    OutlineInputBorder(
+                                                    designationcontroller,
+                                                decoration: InputDecoration(
+                                                    border: OutlineInputBorder(
                                                       borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          8.0),
+                                                          BorderRadius.circular(
+                                                              8.0),
                                                       borderSide:
-                                                      BorderSide
-                                                          .none,
+                                                          BorderSide.none,
                                                     ),
                                                     filled: true,
-                                                    fillColor: Colors
-                                                        .blueGrey
-                                                        .shade50,
-                                                    labelText:
-                                                    "Designation",
+                                                    fillColor:
+                                                        Colors.blueGrey.shade50,
+                                                    labelText: "Designation",
                                                     labelStyle: TextStyle(
-                                                        color: Colors
-                                                            .blueGrey),
+                                                        color: Colors.blueGrey),
                                                     prefixIcon: Icon(
                                                       Icons.business,
-                                                      color: Colors
-                                                          .blueGrey[
-                                                      300],
+                                                      color:
+                                                          Colors.blueGrey[300],
                                                     )),
                                               ),
                                               SizedBox(
@@ -1236,36 +1209,27 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                               ),
                                               TextField(
                                                 style: TextStyle(
-                                                    color: Color(
-                                                        0xFF505D6E)),
+                                                    color: Color(0xFF505D6E)),
                                                 controller:
-                                                emailaddresscontroller,
-                                                decoration:
-                                                InputDecoration(
-                                                    border:
-                                                    OutlineInputBorder(
+                                                    emailaddresscontroller,
+                                                decoration: InputDecoration(
+                                                    border: OutlineInputBorder(
                                                       borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          8.0),
+                                                          BorderRadius.circular(
+                                                              8.0),
                                                       borderSide:
-                                                      BorderSide
-                                                          .none,
+                                                          BorderSide.none,
                                                     ),
                                                     filled: true,
-                                                    fillColor: Colors
-                                                        .blueGrey
-                                                        .shade50,
-                                                    labelText:
-                                                    "Email Address",
+                                                    fillColor:
+                                                        Colors.blueGrey.shade50,
+                                                    labelText: "Email Address",
                                                     labelStyle: TextStyle(
-                                                        color: Colors
-                                                            .blueGrey),
+                                                        color: Colors.blueGrey),
                                                     prefixIcon: Icon(
                                                       Icons.business,
-                                                      color: Colors
-                                                          .blueGrey[
-                                                      300],
+                                                      color:
+                                                          Colors.blueGrey[300],
                                                     )),
                                               ),
                                               SizedBox(
@@ -1273,37 +1237,28 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                               ),
                                               TextField(
                                                 style: TextStyle(
-                                                    color: Color(
-                                                        0xFF505D6E)),
+                                                    color: Color(0xFF505D6E)),
                                                 controller:
-                                                emailaddress2controller,
-                                                decoration:
-                                                InputDecoration(
-                                                    border:
-                                                    OutlineInputBorder(
+                                                    emailaddress2controller,
+                                                decoration: InputDecoration(
+                                                    border: OutlineInputBorder(
                                                       borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          8.0),
+                                                          BorderRadius.circular(
+                                                              8.0),
                                                       borderSide:
-                                                      BorderSide
-                                                          .none,
+                                                          BorderSide.none,
                                                     ),
                                                     filled: true,
-                                                    fillColor: Colors
-                                                        .blueGrey
-                                                        .shade50,
+                                                    fillColor:
+                                                        Colors.blueGrey.shade50,
                                                     labelText:
-                                                    "Alternate Email Address",
+                                                        "Alternate Email Address",
                                                     labelStyle: TextStyle(
-                                                        color: Colors
-                                                            .blueGrey),
+                                                        color: Colors.blueGrey),
                                                     prefixIcon: Icon(
-                                                      Icons
-                                                          .email_rounded,
-                                                      color: Colors
-                                                          .blueGrey[
-                                                      300],
+                                                      Icons.email_rounded,
+                                                      color:
+                                                          Colors.blueGrey[300],
                                                     )),
                                               ),
                                               SizedBox(
@@ -1311,36 +1266,26 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                               ),
                                               TextField(
                                                 style: TextStyle(
-                                                    color: Color(
-                                                        0xFF505D6E)),
-                                                controller:
-                                                weblinkcontroller,
-                                                decoration:
-                                                InputDecoration(
-                                                    border:
-                                                    OutlineInputBorder(
+                                                    color: Color(0xFF505D6E)),
+                                                controller: weblinkcontroller,
+                                                decoration: InputDecoration(
+                                                    border: OutlineInputBorder(
                                                       borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          8.0),
+                                                          BorderRadius.circular(
+                                                              8.0),
                                                       borderSide:
-                                                      BorderSide
-                                                          .none,
+                                                          BorderSide.none,
                                                     ),
                                                     filled: true,
-                                                    fillColor: Colors
-                                                        .blueGrey
-                                                        .shade50,
-                                                    labelText:
-                                                    "Website Link",
+                                                    fillColor:
+                                                        Colors.blueGrey.shade50,
+                                                    labelText: "Website Link",
                                                     labelStyle: TextStyle(
-                                                        color: Colors
-                                                            .blueGrey),
+                                                        color: Colors.blueGrey),
                                                     prefixIcon: Icon(
                                                       Icons.web,
-                                                      color: Colors
-                                                          .blueGrey[
-                                                      300],
+                                                      color:
+                                                          Colors.blueGrey[300],
                                                     )),
                                               ),
                                               SizedBox(
@@ -1348,61 +1293,46 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                               ),
                                               TextField(
                                                 style: TextStyle(
-                                                    color: Color(
-                                                        0xFF505D6E)),
+                                                    color: Color(0xFF505D6E)),
                                                 showCursor: false,
                                                 controller:
-                                                dateofbirthcontroller,
+                                                    dateofbirthcontroller,
                                                 // keyboardType: TextInputType.emailAddress,
-                                                decoration:
-                                                InputDecoration(
-                                                    border:
-                                                    OutlineInputBorder(
+                                                decoration: InputDecoration(
+                                                    border: OutlineInputBorder(
                                                       borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          8.0),
+                                                          BorderRadius.circular(
+                                                              8.0),
                                                       borderSide:
-                                                      BorderSide
-                                                          .none,
+                                                          BorderSide.none,
                                                     ),
                                                     filled: true,
-                                                    fillColor: Colors
-                                                        .blueGrey
-                                                        .shade50,
-                                                    labelText:
-                                                    "Date of Birth",
+                                                    fillColor:
+                                                        Colors.blueGrey.shade50,
+                                                    labelText: "Date of Birth",
                                                     labelStyle: TextStyle(
-                                                        color: Colors
-                                                            .blueGrey),
+                                                        color: Colors.blueGrey),
                                                     prefixIcon: Icon(
-                                                      Icons
-                                                          .calendar_today,
-                                                      color: Colors
-                                                          .blueGrey[
-                                                      300],
+                                                      Icons.calendar_today,
+                                                      color:
+                                                          Colors.blueGrey[300],
                                                     )),
                                                 onTap: () async {
                                                   final selectedDate =
-                                                  await showDatePicker(
+                                                      await showDatePicker(
                                                     context: context,
-                                                    firstDate:
-                                                    DateTime(1900),
-                                                    lastDate:
-                                                    DateTime(2100),
-                                                    initialDate:
-                                                    DateTime.now(),
+                                                    firstDate: DateTime(1900),
+                                                    lastDate: DateTime(2100),
+                                                    initialDate: DateTime.now(),
                                                     // selectableDayPredicate: (day) =>
                                                     //     day.isBefore(DateTime.now()),
                                                   );
-                                                  if (selectedDate !=
-                                                      null) {
+                                                  if (selectedDate != null) {
                                                     setState(() {
                                                       dateofbirthcontroller
                                                           .text = DateFormat(
-                                                          "yyyy-MM-dd")
-                                                          .format(
-                                                          selectedDate)
+                                                              "yyyy-MM-dd")
+                                                          .format(selectedDate)
                                                           .toString();
                                                     });
                                                   }
@@ -1413,36 +1343,27 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                               ),
                                               TextField(
                                                 style: TextStyle(
-                                                    color: Color(
-                                                        0xFF505D6E)),
+                                                    color: Color(0xFF505D6E)),
                                                 controller:
-                                                bloodgroupcontroller,
-                                                decoration:
-                                                InputDecoration(
-                                                    border:
-                                                    OutlineInputBorder(
+                                                    bloodgroupcontroller,
+                                                decoration: InputDecoration(
+                                                    border: OutlineInputBorder(
                                                       borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          8.0),
+                                                          BorderRadius.circular(
+                                                              8.0),
                                                       borderSide:
-                                                      BorderSide
-                                                          .none,
+                                                          BorderSide.none,
                                                     ),
                                                     filled: true,
-                                                    fillColor: Colors
-                                                        .blueGrey
-                                                        .shade50,
-                                                    labelText:
-                                                    "Blood Group",
+                                                    fillColor:
+                                                        Colors.blueGrey.shade50,
+                                                    labelText: "Blood Group",
                                                     labelStyle: TextStyle(
-                                                        color: Colors
-                                                            .blueGrey),
+                                                        color: Colors.blueGrey),
                                                     prefixIcon: Icon(
                                                       Icons.bloodtype,
-                                                      color: Colors
-                                                          .blueGrey[
-                                                      300],
+                                                      color:
+                                                          Colors.blueGrey[300],
                                                     )),
                                               ),
                                               SizedBox(
@@ -1452,39 +1373,29 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                                 height: 120,
                                                 child: TextField(
                                                   style: TextStyle(
-                                                      color: Color(
-                                                          0xFF505D6E)),
+                                                      color: Color(0xFF505D6E)),
                                                   maxLines: 300,
-                                                  controller:
-                                                  aboutcontroller,
-                                                  decoration:
-                                                  InputDecoration(
+                                                  controller: aboutcontroller,
+                                                  decoration: InputDecoration(
                                                       border:
-                                                      OutlineInputBorder(
+                                                          OutlineInputBorder(
                                                         borderRadius:
-                                                        BorderRadius
-                                                            .circular(
-                                                            8.0),
+                                                            BorderRadius
+                                                                .circular(8.0),
                                                         borderSide:
-                                                        BorderSide
-                                                            .none,
+                                                            BorderSide.none,
                                                       ),
                                                       filled: true,
                                                       fillColor: Colors
-                                                          .blueGrey
-                                                          .shade50,
-                                                      labelText:
-                                                      "About",
+                                                          .blueGrey.shade50,
+                                                      labelText: "About",
                                                       labelStyle: TextStyle(
-                                                          color: Colors
-                                                              .blueGrey),
-                                                      prefixIcon:
-                                                      Icon(
-                                                        Icons
-                                                            .favorite,
+                                                          color:
+                                                              Colors.blueGrey),
+                                                      prefixIcon: Icon(
+                                                        Icons.favorite,
                                                         color: Colors
-                                                            .blueGrey[
-                                                        300],
+                                                            .blueGrey[300],
                                                       )),
                                                 ),
                                               ),
@@ -1495,39 +1406,32 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                                 height: 100,
                                                 child: TextField(
                                                   style: TextStyle(
-                                                      color: Color(
-                                                          0xFF505D6E)),
+                                                      color: Color(0xFF505D6E)),
                                                   maxLines: 300,
                                                   controller:
-                                                  natureofbusinesscontroller,
-                                                  decoration:
-                                                  InputDecoration(
+                                                      natureofbusinesscontroller,
+                                                  decoration: InputDecoration(
                                                       border:
-                                                      OutlineInputBorder(
+                                                          OutlineInputBorder(
                                                         borderRadius:
-                                                        BorderRadius
-                                                            .circular(
-                                                            8.0),
+                                                            BorderRadius
+                                                                .circular(8.0),
                                                         borderSide:
-                                                        BorderSide
-                                                            .none,
+                                                            BorderSide.none,
                                                       ),
                                                       filled: true,
                                                       fillColor: Colors
-                                                          .blueGrey
-                                                          .shade50,
+                                                          .blueGrey.shade50,
                                                       labelText:
-                                                      "Nature of Business",
+                                                          "Nature of Business",
                                                       labelStyle: TextStyle(
-                                                          color: Colors
-                                                              .blueGrey),
-                                                      prefixIcon:
-                                                      Icon(
+                                                          color:
+                                                              Colors.blueGrey),
+                                                      prefixIcon: Icon(
                                                         Icons
                                                             .add_business_sharp,
                                                         color: Colors
-                                                            .blueGrey[
-                                                        300],
+                                                            .blueGrey[300],
                                                       )),
                                                 ),
                                               ),
@@ -1576,39 +1480,31 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                                 height: 100,
                                                 child: TextField(
                                                   style: TextStyle(
-                                                      color: Color(
-                                                          0xFF505D6E)),
+                                                      color: Color(0xFF505D6E)),
                                                   maxLines: 300,
                                                   controller:
-                                                  officeaddresscontroller,
-                                                  decoration:
-                                                  InputDecoration(
+                                                      officeaddresscontroller,
+                                                  decoration: InputDecoration(
                                                       border:
-                                                      OutlineInputBorder(
+                                                          OutlineInputBorder(
                                                         borderRadius:
-                                                        BorderRadius
-                                                            .circular(
-                                                            8.0),
+                                                            BorderRadius
+                                                                .circular(8.0),
                                                         borderSide:
-                                                        BorderSide
-                                                            .none,
+                                                            BorderSide.none,
                                                       ),
                                                       filled: true,
                                                       fillColor: Colors
-                                                          .blueGrey
-                                                          .shade50,
-                                                      labelText:
-                                                      "Address1",
+                                                          .blueGrey.shade50,
+                                                      labelText: "Address1",
                                                       labelStyle: TextStyle(
-                                                          color: Colors
-                                                              .blueGrey),
-                                                      prefixIcon:
-                                                      Icon(
+                                                          color:
+                                                              Colors.blueGrey),
+                                                      prefixIcon: Icon(
                                                         Icons
                                                             .add_business_outlined,
                                                         color: Colors
-                                                            .blueGrey[
-                                                        300],
+                                                            .blueGrey[300],
                                                       )),
                                                 ),
                                               ),
@@ -1617,37 +1513,29 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                               ),
                                               TextField(
                                                 style: TextStyle(
-                                                    color: Color(
-                                                        0xFF505D6E)),
+                                                    color: Color(0xFF505D6E)),
                                                 controller:
-                                                googlemaplinkcontroller,
-                                                decoration:
-                                                InputDecoration(
-                                                    border:
-                                                    OutlineInputBorder(
+                                                    googlemaplinkcontroller,
+                                                decoration: InputDecoration(
+                                                    border: OutlineInputBorder(
                                                       borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          8.0),
+                                                          BorderRadius.circular(
+                                                              8.0),
                                                       borderSide:
-                                                      BorderSide
-                                                          .none,
+                                                          BorderSide.none,
                                                     ),
                                                     filled: true,
-                                                    fillColor: Colors
-                                                        .blueGrey
-                                                        .shade50,
+                                                    fillColor:
+                                                        Colors.blueGrey.shade50,
                                                     labelText:
-                                                    "Google Map Link for Address1",
+                                                        "Google Map Link for Address1",
                                                     labelStyle: TextStyle(
-                                                        color: Colors
-                                                            .blueGrey),
+                                                        color: Colors.blueGrey),
                                                     prefixIcon: Icon(
                                                       Icons
                                                           .location_on_outlined,
-                                                      color: Colors
-                                                          .blueGrey[
-                                                      300],
+                                                      color:
+                                                          Colors.blueGrey[300],
                                                     )),
                                               ),
                                               SizedBox(
@@ -1658,39 +1546,30 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                                 height: 100,
                                                 child: TextField(
                                                   style: TextStyle(
-                                                      color: Color(
-                                                          0xFF505D6E)),
+                                                      color: Color(0xFF505D6E)),
                                                   maxLines: 300,
                                                   controller:
-                                                  officeaddress2controller,
-                                                  decoration:
-                                                  InputDecoration(
+                                                      officeaddress2controller,
+                                                  decoration: InputDecoration(
                                                       border:
-                                                      OutlineInputBorder(
+                                                          OutlineInputBorder(
                                                         borderRadius:
-                                                        BorderRadius
-                                                            .circular(
-                                                            8.0),
+                                                            BorderRadius
+                                                                .circular(8.0),
                                                         borderSide:
-                                                        BorderSide
-                                                            .none,
+                                                            BorderSide.none,
                                                       ),
                                                       filled: true,
                                                       fillColor: Colors
-                                                          .blueGrey
-                                                          .shade50,
-                                                      labelText:
-                                                      "Address2",
+                                                          .blueGrey.shade50,
+                                                      labelText: "Address2",
                                                       labelStyle: TextStyle(
-                                                          color: Colors
-                                                              .blueGrey),
-                                                      prefixIcon:
-                                                      Icon(
-                                                        Icons
-                                                            .add_business,
+                                                          color:
+                                                              Colors.blueGrey),
+                                                      prefixIcon: Icon(
+                                                        Icons.add_business,
                                                         color: Colors
-                                                            .blueGrey[
-                                                        300],
+                                                            .blueGrey[300],
                                                       )),
                                                 ),
                                               ),
@@ -1699,37 +1578,28 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                               ),
                                               TextField(
                                                 style: TextStyle(
-                                                    color: Color(
-                                                        0xFF505D6E)),
+                                                    color: Color(0xFF505D6E)),
                                                 controller:
-                                                googlemaplink1controller,
-                                                decoration:
-                                                InputDecoration(
-                                                    border:
-                                                    OutlineInputBorder(
+                                                    googlemaplink1controller,
+                                                decoration: InputDecoration(
+                                                    border: OutlineInputBorder(
                                                       borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          8.0),
+                                                          BorderRadius.circular(
+                                                              8.0),
                                                       borderSide:
-                                                      BorderSide
-                                                          .none,
+                                                          BorderSide.none,
                                                     ),
                                                     filled: true,
-                                                    fillColor: Colors
-                                                        .blueGrey
-                                                        .shade50,
+                                                    fillColor:
+                                                        Colors.blueGrey.shade50,
                                                     labelText:
-                                                    "Google Map Link for Address2",
+                                                        "Google Map Link for Address2",
                                                     labelStyle: TextStyle(
-                                                        color: Colors
-                                                            .blueGrey),
+                                                        color: Colors.blueGrey),
                                                     prefixIcon: Icon(
-                                                      Icons
-                                                          .location_on,
-                                                      color: Colors
-                                                          .blueGrey[
-                                                      300],
+                                                      Icons.location_on,
+                                                      color:
+                                                          Colors.blueGrey[300],
                                                     )),
                                               ),
                                               SizedBox(
@@ -1737,21 +1607,17 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                               ),
                                               Row(
                                                   mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .center,
+                                                      MainAxisAlignment.center,
                                                   crossAxisAlignment:
-                                                  CrossAxisAlignment
-                                                      .start,
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
                                                       "Profile Image",
                                                       style: TextStyle(
                                                           fontSize: 15,
-                                                          color: Colors
-                                                              .black54,
+                                                          color: Colors.black54,
                                                           fontWeight:
-                                                          FontWeight
-                                                              .bold),
+                                                              FontWeight.bold),
                                                     ),
                                                   ]),
                                               SizedBox(
@@ -1759,11 +1625,9 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                               ),
                                               Row(
                                                   mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .center,
+                                                      MainAxisAlignment.center,
                                                   crossAxisAlignment:
-                                                  CrossAxisAlignment
-                                                      .start,
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     // SizedBox(
                                                     //   width: 30,
@@ -1771,119 +1635,154 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                                     InkWell(
                                                         onTap: () async {
                                                           final input =
-                                                          FileUploadInputElement();
+                                                              FileUploadInputElement();
                                                           input.accept =
-                                                          'image/*';
+                                                              'image/*';
                                                           input.click();
+                                                          setState(() {
+                                                            isLoading = true;
+                                                          });
                                                           input.onChange
-                                                              .listen(
-                                                                  (e) {
-                                                                final filename =
-                                                                    input
-                                                                        .files
-                                                                        ?.first;
-                                                                final files =
-                                                                    input
-                                                                        .files;
-                                                                if (files!
-                                                                    .length ==
-                                                                    1) {
-                                                                  final file =
-                                                                  files[
-                                                                  0];
-                                                                  final reader =
+                                                              .listen((e) {
+                                                            final filename =
+                                                                input.files?.first;
+                                                            final files =
+                                                                input.files;
+
+                                                            if (files!.length ==
+                                                                1) {
+                                                              final file =
+                                                                  files[0];
+
+                                                              final reader =
                                                                   FileReader();
-                                                                  reader
-                                                                      .onLoadEnd
-                                                                      .listen(
-                                                                          (e) async {
-                                                                        final bytes = Base64Decoder().convert(reader
-                                                                            .result
-                                                                            .toString()
-                                                                            .split(
+                                                              reader.onLoadEnd
+                                                                  .listen(
+                                                                      (e) async {
+
+                                                                final bytes = Base64Decoder()
+                                                                    .convert(reader
+                                                                        .result
+                                                                        .toString()
+                                                                        .split(
                                                                             ",")
-                                                                            .last);
-                                                                        setState(
-                                                                                () {
-                                                                              if (bytes !=
-                                                                                  null) {
-                                                                                _fileName =
-                                                                                    filename?.name;
-                                                                                print(
-                                                                                    _fileName.toString());
-                                                                                fileBytes =
-                                                                                    bytes;
-                                                                                updateBytes =
-                                                                                    bytes;
-                                                                                if (_fileName !=
-                                                                                    null) {
-                                                                                  updateprofile =
-                                                                                  '1';
-                                                                                }
-                                                                              }
-                                                                            });
-                                                                      });
-                                                                  reader.readAsDataUrl(
-                                                                      file);
-                                                                }
+                                                                        .last);
+
+                                                                setState(() {
+                                                                  if (bytes != null) {
+                                                                    _fileName =
+                                                                        filename
+                                                                            ?.name;
+
+                                                                    fileBytes =
+                                                                        bytes;
+                                                                    updateBytes =
+                                                                        bytes;
+                                                                    if (_fileName !=
+                                                                        null) {
+                                                                      updateprofile =
+                                                                          '1';
+                                                                    }
+                                                                  }
+                                                                });
                                                               });
+                                                              reader
+                                                                  .readAsDataUrl(
+                                                                      file);
+                                                            }
+                                                            setState(() {
+                                                              isLoading = false;
+                                                            });
+                                                          });
+                                                          void
+                                                              cancelledeventlistener(
+                                                                  e) {
+                                                            Future.delayed(
+                                                                Duration(
+                                                                    seconds: 6),
+                                                                () {
+                                                              if (input.files!
+                                                                  .isEmpty) {
+                                                                html.window
+                                                                    .removeEventListener(
+                                                                        'focus',
+                                                                        cancelledeventlistener);
+                                                                setState(() {
+                                                                  isLoading =
+                                                                      false;
+                                                                });
+                                                              }
+                                                            });
+                                                          }
+
+                                                          html.window
+                                                              .addEventListener(
+                                                                  'focus',
+                                                                  cancelledeventlistener);
+                                                          setState(() {});
                                                         },
                                                         child: Container(
                                                             decoration:
-                                                            BoxDecoration(
+                                                                BoxDecoration(
                                                               color: Colors
                                                                   .blueGrey
                                                                   .shade50,
                                                               borderRadius:
-                                                              BorderRadius.circular(
-                                                                  10),
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10),
                                                             ),
                                                             height: 160,
                                                             width: MediaQuery.of(
-                                                                context)
-                                                                .size
-                                                                .width /
+                                                                        context)
+                                                                    .size
+                                                                    .width /
                                                                 2.8,
                                                             child: Column(
                                                                 mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
+                                                                    MainAxisAlignment
+                                                                        .center,
                                                                 crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
+                                                                    CrossAxisAlignment
+                                                                        .center,
                                                                 children: [
-                                                                  (fileBytes ==
-                                                                      null)
-                                                                      ? (profileimage.toString() == 'null' || profileimage.toString() == '')
-                                                                      ? Icon(Icons.add_box_rounded, size: 50, color: Colors.blueGrey[300])
-                                                                      : Column(children: [
-                                                                    Image.network(profileimage.toString(), width: 100, height: 90, fit: BoxFit.fill),
-                                                                    SizedBox(height: 2),
-                                                                    Text(
-                                                                      ' ${profileimagename} ',
-                                                                      style: TextStyle(color: Colors.black45, fontSize: 13),
-                                                                    ),
-                                                                    SizedBox(height: 2),
-                                                                  ])
-                                                                      : ClipRRect(
-                                                                    borderRadius: BorderRadius.only(
-                                                                      topLeft: Radius.circular(8.0),
-                                                                      topRight: Radius.circular(8.0),
-                                                                    ),
-                                                                    child: Column(children: [
-                                                                      Image.memory(fileBytes!, width: 100, height: 90, fit: BoxFit.fill),
-                                                                      SizedBox(height: 2),
-                                                                      Text(
-                                                                        ' ${_fileName} ',
-                                                                        style: TextStyle(color: Colors.black45, fontSize: 13),
-                                                                      ),
-                                                                      SizedBox(height: 2),
-                                                                    ]),
-                                                                  ),
+                                                                  isLoading
+                                                                      ? CircularProgressIndicator()
+                                                                      : (fileBytes ==
+                                                                              null)
+                                                                          ? (profileimage.toString() == 'null' || profileimage.toString() == '')
+                                                                              ? Icon(Icons.add_box_rounded, size: 50, color: Colors.blueGrey[300])
+                                                                              : Column(children: [
+                                                                                  Image.network(profileimage.toString(), width: 100, height: 90, fit: BoxFit.fill),
+                                                                                  SizedBox(height: 2),
+                                                                                  Text(
+                                                                                    ' ${profileimagename} ',
+                                                                                    style: TextStyle(color: Colors.black45, fontSize: 13),
+                                                                                  ),
+                                                                                  SizedBox(height: 2),
+                                                                                ])
+                                                                          : ClipRRect(
+                                                                              borderRadius: BorderRadius.only(
+                                                                                topLeft: Radius.circular(8.0),
+                                                                                topRight: Radius.circular(8.0),
+                                                                              ),
+                                                                              child: Column(children: [
+                                                                                Image.memory(fileBytes!, width: 100, height: 90, fit: BoxFit.fill,filterQuality: FilterQuality.low,),
+                                                                                SizedBox(height: 2),
+                                                                                Text(
+                                                                                  ' ${_fileName} ',
+                                                                                  style: TextStyle(color: Colors.black45, fontSize: 13),
+                                                                                ),
+                                                                                SizedBox(height: 2),
+                                                                              ]),
+                                                                            ),
                                                                   Text(
                                                                       "Choose Image",
-                                                                      style:
-                                                                      TextStyle(fontSize: 15, color: Colors.blueGrey))
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              15,
+                                                                          color:
+                                                                              Colors.blueGrey))
                                                                 ])))
                                                   ]),
                                               SizedBox(
@@ -1891,21 +1790,17 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                               ),
                                               Row(
                                                   mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .center,
+                                                      MainAxisAlignment.center,
                                                   crossAxisAlignment:
-                                                  CrossAxisAlignment
-                                                      .start,
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
                                                       "Banner Image",
                                                       style: TextStyle(
                                                           fontSize: 15,
-                                                          color: Colors
-                                                              .black54,
+                                                          color: Colors.black54,
                                                           fontWeight:
-                                                          FontWeight
-                                                              .bold),
+                                                              FontWeight.bold),
                                                     ),
                                                   ]),
                                               SizedBox(
@@ -1913,128 +1808,161 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                               ),
                                               Row(
                                                   mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .center,
+                                                      MainAxisAlignment.center,
                                                   crossAxisAlignment:
-                                                  CrossAxisAlignment
-                                                      .start,
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     InkWell(
                                                         onTap: () async {
                                                           final input =
-                                                          FileUploadInputElement();
+                                                              FileUploadInputElement();
                                                           input.accept =
-                                                          'image/*';
+                                                              'image/*';
                                                           input.click();
+                                                          setState(() {
+                                                            isLoading1 = true;
+                                                          });
                                                           input.onChange
-                                                              .listen(
-                                                                  (e) {
-                                                                final filename =
-                                                                    input
-                                                                        .files
-                                                                        ?.first;
-                                                                final files =
-                                                                    input
-                                                                        .files;
-                                                                if (files!
-                                                                    .length ==
-                                                                    1) {
-                                                                  final file =
-                                                                  files[
-                                                                  0];
-                                                                  final reader =
+                                                              .listen((e) {
+                                                            final filename =
+                                                                input.files
+                                                                    ?.first;
+                                                            final files =
+                                                                input.files;
+                                                            if (files!.length ==
+                                                                1) {
+                                                              final file =
+                                                                  files[0];
+                                                              final reader =
                                                                   FileReader();
-                                                                  reader
-                                                                      .onLoadEnd
-                                                                      .listen(
-                                                                          (e) async {
-                                                                        final bytes = Base64Decoder().convert(reader
-                                                                            .result
-                                                                            .toString()
-                                                                            .split(
+                                                              reader.onLoadEnd
+                                                                  .listen(
+                                                                      (e) async {
+                                                                final bytes = Base64Decoder()
+                                                                    .convert(reader
+                                                                        .result
+                                                                        .toString()
+                                                                        .split(
                                                                             ",")
-                                                                            .last);
-                                                                        setState(
-                                                                                () {
-                                                                              if (bytes !=
-                                                                                  null) {
-                                                                                _fileName1 =
-                                                                                    filename?.name;
-                                                                                print(
-                                                                                    _fileName1.toString());
-                                                                                fileBytes1 =
-                                                                                    bytes;
-                                                                                updateBytes1 =
-                                                                                    bytes;
-                                                                                if (_fileName1 !=
-                                                                                    null) {
-                                                                                  updatebanner =
-                                                                                  '1';
-                                                                                }
-                                                                              }
-                                                                            });
-                                                                      });
-                                                                  reader.readAsDataUrl(
-                                                                      file);
-                                                                }
+                                                                        .last);
+                                                                setState(() {
+                                                                  if (bytes !=
+                                                                      null) {
+                                                                    _fileName1 =
+                                                                        filename
+                                                                            ?.name;
+                                                                    print(_fileName1
+                                                                        .toString());
+                                                                    fileBytes1 =
+                                                                        bytes;
+                                                                    updateBytes1 =
+                                                                        bytes;
+                                                                    if (_fileName1 !=
+                                                                        null) {
+                                                                      updatebanner =
+                                                                          '1';
+                                                                    }
+                                                                  }
+                                                                });
                                                               });
+                                                              reader
+                                                                  .readAsDataUrl(
+                                                                      file);
+                                                            }
+                                                            setState(() {
+                                                              isLoading1 =
+                                                                  false;
+                                                            });
+                                                          });
+                                                          void
+                                                              cancelledeventlistener(
+                                                                  e) {
+                                                            Future.delayed(
+                                                                Duration(
+                                                                    seconds: 6),
+                                                                () {
+                                                              if (input.files!
+                                                                  .isEmpty) {
+                                                                html.window
+                                                                    .removeEventListener(
+                                                                        'focus',
+                                                                        cancelledeventlistener);
+                                                                setState(() {
+                                                                  isLoading1 =
+                                                                      false;
+                                                                });
+                                                              }
+                                                            });
+                                                          }
+
+                                                          html.window
+                                                              .addEventListener(
+                                                                  'focus',
+                                                                  cancelledeventlistener);
+                                                          setState(() {});
                                                         },
                                                         child: Container(
                                                             decoration:
-                                                            BoxDecoration(
+                                                                BoxDecoration(
                                                               color: Colors
                                                                   .blueGrey
                                                                   .shade50,
                                                               borderRadius:
-                                                              BorderRadius.circular(
-                                                                  10),
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10),
                                                             ),
                                                             height: 160,
                                                             width: MediaQuery.of(
-                                                                context)
-                                                                .size
-                                                                .width /
+                                                                        context)
+                                                                    .size
+                                                                    .width /
                                                                 2.8,
                                                             child: Column(
                                                                 mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
+                                                                    MainAxisAlignment
+                                                                        .center,
                                                                 crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
+                                                                    CrossAxisAlignment
+                                                                        .center,
                                                                 children: [
-                                                                  (fileBytes1 ==
-                                                                      null)
-                                                                      ? (bannerimage.toString() == 'null' || bannerimage.toString() == '')
-                                                                      ? Icon(Icons.add_box_rounded, size: 50, color: Colors.blueGrey[300])
-                                                                      : Column(children: [
-                                                                    Image.network(bannerimage.toString(), width: 100, height: 90, fit: BoxFit.fill),
-                                                                    SizedBox(height: 2),
-                                                                    Text(
-                                                                      ' ${bannerimagename} ',
-                                                                      style: TextStyle(color: Colors.black45, fontSize: 13),
-                                                                    ),
-                                                                    SizedBox(height: 2),
-                                                                  ])
-                                                                      : ClipRRect(
-                                                                    borderRadius: BorderRadius.only(
-                                                                      topLeft: Radius.circular(8.0),
-                                                                      topRight: Radius.circular(8.0),
-                                                                    ),
-                                                                    child: Column(children: [
-                                                                      Image.memory(fileBytes1!, width: 100, height: 90, fit: BoxFit.fill),
-                                                                      SizedBox(height: 2),
-                                                                      Text(
-                                                                        ' ${_fileName1} ',
-                                                                        style: TextStyle(color: Colors.black45, fontSize: 13),
-                                                                      ),
-                                                                      SizedBox(height: 2),
-                                                                    ]),
-                                                                  ),
+                                                                  isLoading1
+                                                                      ? CircularProgressIndicator()
+                                                                      : (fileBytes1 ==
+                                                                              null)
+                                                                          ? (bannerimage.toString() == 'null' || bannerimage.toString() == '')
+                                                                              ? Icon(Icons.add_box_rounded, size: 50, color: Colors.blueGrey[300])
+                                                                              : Column(children: [
+                                                                                  Image.network(bannerimage.toString(), width: 100, height: 90, fit: BoxFit.fill),
+                                                                                  SizedBox(height: 2),
+                                                                                  Text(
+                                                                                    ' ${bannerimagename} ',
+                                                                                    style: TextStyle(color: Colors.black45, fontSize: 13),
+                                                                                  ),
+                                                                                  SizedBox(height: 2),
+                                                                                ])
+                                                                          : ClipRRect(
+                                                                              borderRadius: BorderRadius.only(
+                                                                                topLeft: Radius.circular(8.0),
+                                                                                topRight: Radius.circular(8.0),
+                                                                              ),
+                                                                              child: Column(children: [
+                                                                                Image.memory(fileBytes1!, width: 100, height: 90, fit: BoxFit.fill,filterQuality: FilterQuality.low),
+                                                                                SizedBox(height: 2),
+                                                                                Text(
+                                                                                  ' ${_fileName1} ',
+                                                                                  style: TextStyle(color: Colors.black45, fontSize: 13),
+                                                                                ),
+                                                                                SizedBox(height: 2),
+                                                                              ]),
+                                                                            ),
                                                                   Text(
                                                                       "Choose Image",
-                                                                      style:
-                                                                      TextStyle(fontSize: 15, color: Colors.blueGrey))
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              15,
+                                                                          color:
+                                                                              Colors.blueGrey))
                                                                 ])))
                                                   ]),
                                               SizedBox(
@@ -2042,21 +1970,17 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                               ),
                                               Row(
                                                   mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .center,
+                                                      MainAxisAlignment.center,
                                                   crossAxisAlignment:
-                                                  CrossAxisAlignment
-                                                      .start,
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
                                                       "UPI Payment Scanner",
                                                       style: TextStyle(
                                                           fontSize: 15,
-                                                          color: Colors
-                                                              .black54,
+                                                          color: Colors.black54,
                                                           fontWeight:
-                                                          FontWeight
-                                                              .bold),
+                                                              FontWeight.bold),
                                                     ),
                                                   ]),
                                               SizedBox(
@@ -2064,128 +1988,161 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                               ),
                                               Row(
                                                   mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .center,
+                                                      MainAxisAlignment.center,
                                                   crossAxisAlignment:
-                                                  CrossAxisAlignment
-                                                      .start,
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     InkWell(
                                                         onTap: () async {
                                                           final input =
-                                                          FileUploadInputElement();
+                                                              FileUploadInputElement();
                                                           input.accept =
-                                                          'image/*';
+                                                              'image/*';
                                                           input.click();
+                                                          setState(() {
+                                                            isLoading3 = true;
+                                                          });
                                                           input.onChange
-                                                              .listen(
-                                                                  (e) {
-                                                                final filename =
-                                                                    input
-                                                                        .files
-                                                                        ?.first;
-                                                                final files =
-                                                                    input
-                                                                        .files;
-                                                                if (files!
-                                                                    .length ==
-                                                                    1) {
-                                                                  final file =
-                                                                  files[
-                                                                  0];
-                                                                  final reader =
+                                                              .listen((e) {
+                                                            final filename =
+                                                                input.files
+                                                                    ?.first;
+                                                            final files =
+                                                                input.files;
+                                                            if (files!.length ==
+                                                                1) {
+                                                              final file =
+                                                                  files[0];
+                                                              final reader =
                                                                   FileReader();
-                                                                  reader
-                                                                      .onLoadEnd
-                                                                      .listen(
-                                                                          (e) async {
-                                                                        final bytes = Base64Decoder().convert(reader
-                                                                            .result
-                                                                            .toString()
-                                                                            .split(
+                                                              reader.onLoadEnd
+                                                                  .listen(
+                                                                      (e) async {
+                                                                final bytes = Base64Decoder()
+                                                                    .convert(reader
+                                                                        .result
+                                                                        .toString()
+                                                                        .split(
                                                                             ",")
-                                                                            .last);
-                                                                        setState(
-                                                                                () {
-                                                                              if (bytes !=
-                                                                                  null) {
-                                                                                _fileName2 =
-                                                                                    filename?.name;
-                                                                                print(
-                                                                                    _fileName2.toString());
-                                                                                fileBytes2 =
-                                                                                    bytes;
-                                                                                updateBytes2 =
-                                                                                    bytes;
-                                                                                if (_fileName2 !=
-                                                                                    null) {
-                                                                                  updateupi =
-                                                                                  '1';
-                                                                                }
-                                                                              }
-                                                                            });
-                                                                      });
-                                                                  reader.readAsDataUrl(
-                                                                      file);
-                                                                }
+                                                                        .last);
+                                                                setState(() {
+                                                                  if (bytes !=
+                                                                      null) {
+                                                                    _fileName2 =
+                                                                        filename
+                                                                            ?.name;
+                                                                    print(_fileName2
+                                                                        .toString());
+                                                                    fileBytes2 =
+                                                                        bytes;
+                                                                    updateBytes2 =
+                                                                        bytes;
+                                                                    if (_fileName2 !=
+                                                                        null) {
+                                                                      updateupi =
+                                                                          '1';
+                                                                    }
+                                                                  }
+                                                                });
                                                               });
+                                                              reader
+                                                                  .readAsDataUrl(
+                                                                      file);
+                                                            }
+                                                            setState(() {
+                                                              isLoading3 =
+                                                                  false;
+                                                            });
+                                                          });
+                                                          void
+                                                              cancelledeventlistener(
+                                                                  e) {
+                                                            Future.delayed(
+                                                                Duration(
+                                                                    seconds: 6),
+                                                                () {
+                                                              if (input.files!
+                                                                  .isEmpty) {
+                                                                html.window
+                                                                    .removeEventListener(
+                                                                        'focus',
+                                                                        cancelledeventlistener);
+                                                                setState(() {
+                                                                  isLoading3 =
+                                                                      false;
+                                                                });
+                                                              }
+                                                            });
+                                                          }
+
+                                                          html.window
+                                                              .addEventListener(
+                                                                  'focus',
+                                                                  cancelledeventlistener);
+                                                          setState(() {});
                                                         },
                                                         child: Container(
                                                             decoration:
-                                                            BoxDecoration(
+                                                                BoxDecoration(
                                                               color: Colors
                                                                   .blueGrey
                                                                   .shade50,
                                                               borderRadius:
-                                                              BorderRadius.circular(
-                                                                  10),
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10),
                                                             ),
                                                             width: MediaQuery.of(
-                                                                context)
-                                                                .size
-                                                                .width /
+                                                                        context)
+                                                                    .size
+                                                                    .width /
                                                                 2.8,
                                                             height: 160,
                                                             child: Column(
                                                                 mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
+                                                                    MainAxisAlignment
+                                                                        .center,
                                                                 crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
+                                                                    CrossAxisAlignment
+                                                                        .center,
                                                                 children: [
-                                                                  (fileBytes2 ==
-                                                                      null)
-                                                                      ? (urlimage.toString() == 'null' || urlimage.toString() == '')
-                                                                      ? Icon(Icons.add_box_rounded, size: 50, color: Colors.blueGrey[300])
-                                                                      : Column(children: [
-                                                                    Image.network(urlimage.toString(), width: 100, height: 90, fit: BoxFit.fill),
-                                                                    SizedBox(height: 2),
-                                                                    Text(
-                                                                      ' ${urlimagename} ',
-                                                                      style: TextStyle(color: Colors.black45, fontSize: 13),
-                                                                    ),
-                                                                    SizedBox(height: 2),
-                                                                  ])
-                                                                      : ClipRRect(
-                                                                    borderRadius: BorderRadius.only(
-                                                                      topLeft: Radius.circular(8.0),
-                                                                      topRight: Radius.circular(8.0),
-                                                                    ),
-                                                                    child: Column(children: [
-                                                                      Image.memory(fileBytes2!, width: 100, height: 90, fit: BoxFit.fill),
-                                                                      SizedBox(height: 2),
-                                                                      Text(
-                                                                        ' ${_fileName2} ',
-                                                                        style: TextStyle(color: Colors.black45, fontSize: 13),
-                                                                      ),
-                                                                      SizedBox(height: 2),
-                                                                    ]),
-                                                                  ),
+                                                                  isLoading3
+                                                                      ? CircularProgressIndicator()
+                                                                      : (fileBytes2 ==
+                                                                              null)
+                                                                          ? (urlimage.toString() == 'null' || urlimage.toString() == '')
+                                                                              ? Icon(Icons.add_box_rounded, size: 50, color: Colors.blueGrey[300])
+                                                                              : Column(children: [
+                                                                                  Image.network(urlimage.toString(), width: 100, height: 90, fit: BoxFit.fill),
+                                                                                  SizedBox(height: 2),
+                                                                                  Text(
+                                                                                    ' ${urlimagename} ',
+                                                                                    style: TextStyle(color: Colors.black45, fontSize: 13),
+                                                                                  ),
+                                                                                  SizedBox(height: 2),
+                                                                                ])
+                                                                          : ClipRRect(
+                                                                              borderRadius: BorderRadius.only(
+                                                                                topLeft: Radius.circular(8.0),
+                                                                                topRight: Radius.circular(8.0),
+                                                                              ),
+                                                                              child: Column(children: [
+                                                                                Image.memory(fileBytes2!, width: 100, height: 90, fit: BoxFit.fill,filterQuality: FilterQuality.low),
+                                                                                SizedBox(height: 2),
+                                                                                Text(
+                                                                                  ' ${_fileName2} ',
+                                                                                  style: TextStyle(color: Colors.black45, fontSize: 13),
+                                                                                ),
+                                                                                SizedBox(height: 2),
+                                                                              ]),
+                                                                            ),
                                                                   Text(
                                                                       "Choose Image",
-                                                                      style:
-                                                                      TextStyle(fontSize: 15, color: Colors.blueGrey))
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              15,
+                                                                          color:
+                                                                              Colors.blueGrey))
                                                                 ])))
                                                   ]),
                                               SizedBox(
@@ -2193,57 +2150,44 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                               ),
                                               Row(
                                                   mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .start,
+                                                      MainAxisAlignment.start,
                                                   crossAxisAlignment:
-                                                  CrossAxisAlignment
-                                                      .start,
+                                                      CrossAxisAlignment.start,
                                                   children: [
-                                                    Text(
-                                                        "Social Media Details",
+                                                    Text("Social Media Details",
                                                         style: TextStyle(
                                                             fontSize: 18,
-                                                            color: Colors
-                                                                .black,
+                                                            color: Colors.black,
                                                             fontWeight:
-                                                            FontWeight
-                                                                .bold)),
+                                                                FontWeight
+                                                                    .bold)),
                                                   ]),
                                               SizedBox(
                                                 height: 15,
                                               ),
                                               TextField(
                                                 style: TextStyle(
-                                                    color: Color(
-                                                        0xFF505D6E)),
+                                                    color: Color(0xFF505D6E)),
                                                 controller:
-                                                facebookdetailscontroller,
-                                                decoration:
-                                                InputDecoration(
-                                                    border:
-                                                    OutlineInputBorder(
+                                                    facebookdetailscontroller,
+                                                decoration: InputDecoration(
+                                                    border: OutlineInputBorder(
                                                       borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          8.0),
+                                                          BorderRadius.circular(
+                                                              8.0),
                                                       borderSide:
-                                                      BorderSide
-                                                          .none,
+                                                          BorderSide.none,
                                                     ),
                                                     filled: true,
-                                                    fillColor: Colors
-                                                        .blueGrey
-                                                        .shade50,
-                                                    labelText:
-                                                    "Facebook",
+                                                    fillColor:
+                                                        Colors.blueGrey.shade50,
+                                                    labelText: "Facebook",
                                                     labelStyle: TextStyle(
-                                                        color: Colors
-                                                            .blueGrey),
+                                                        color: Colors.blueGrey),
                                                     prefixIcon: Icon(
                                                       Icons.facebook,
-                                                      color: Colors
-                                                          .blueGrey[
-                                                      300],
+                                                      color:
+                                                          Colors.blueGrey[300],
                                                     )),
                                               ),
                                               SizedBox(
@@ -2251,37 +2195,28 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                               ),
                                               TextField(
                                                 style: TextStyle(
-                                                    color: Color(
-                                                        0xFF505D6E)),
+                                                    color: Color(0xFF505D6E)),
                                                 controller:
-                                                instagramdetailscontroller,
-                                                decoration:
-                                                InputDecoration(
-                                                    border:
-                                                    OutlineInputBorder(
+                                                    instagramdetailscontroller,
+                                                decoration: InputDecoration(
+                                                    border: OutlineInputBorder(
                                                       borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          8.0),
+                                                          BorderRadius.circular(
+                                                              8.0),
                                                       borderSide:
-                                                      BorderSide
-                                                          .none,
+                                                          BorderSide.none,
                                                     ),
                                                     filled: true,
-                                                    fillColor: Colors
-                                                        .blueGrey
-                                                        .shade50,
-                                                    labelText:
-                                                    "Instagram",
+                                                    fillColor:
+                                                        Colors.blueGrey.shade50,
+                                                    labelText: "Instagram",
                                                     labelStyle: TextStyle(
-                                                        color: Colors
-                                                            .blueGrey),
+                                                        color: Colors.blueGrey),
                                                     prefixIcon: Icon(
                                                       FontAwesomeIcons
                                                           .instagram,
-                                                      color: Colors
-                                                          .blueGrey[
-                                                      300],
+                                                      color:
+                                                          Colors.blueGrey[300],
                                                     )),
                                               ),
                                               SizedBox(
@@ -2289,37 +2224,27 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                               ),
                                               TextField(
                                                 style: TextStyle(
-                                                    color: Color(
-                                                        0xFF505D6E)),
+                                                    color: Color(0xFF505D6E)),
                                                 controller:
-                                                linkedindetailscontroller,
-                                                decoration:
-                                                InputDecoration(
-                                                    border:
-                                                    OutlineInputBorder(
+                                                    linkedindetailscontroller,
+                                                decoration: InputDecoration(
+                                                    border: OutlineInputBorder(
                                                       borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          8.0),
+                                                          BorderRadius.circular(
+                                                              8.0),
                                                       borderSide:
-                                                      BorderSide
-                                                          .none,
+                                                          BorderSide.none,
                                                     ),
                                                     filled: true,
-                                                    fillColor: Colors
-                                                        .blueGrey
-                                                        .shade50,
-                                                    labelText:
-                                                    "LinkedIn",
+                                                    fillColor:
+                                                        Colors.blueGrey.shade50,
+                                                    labelText: "LinkedIn",
                                                     labelStyle: TextStyle(
-                                                        color: Colors
-                                                            .blueGrey),
+                                                        color: Colors.blueGrey),
                                                     prefixIcon: Icon(
-                                                      FontAwesomeIcons
-                                                          .linkedin,
-                                                      color: Colors
-                                                          .blueGrey[
-                                                      300],
+                                                      FontAwesomeIcons.linkedin,
+                                                      color:
+                                                          Colors.blueGrey[300],
                                                     )),
                                               ),
                                               SizedBox(
@@ -2327,53 +2252,44 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                               ),
                                               TextField(
                                                 style: TextStyle(
-                                                    color: Color(
-                                                        0xFF505D6E)),
+                                                    color: Color(0xFF505D6E)),
                                                 controller:
-                                                twitterdetailscontroller,
-                                                decoration:
-                                                InputDecoration(
-                                                    border:
-                                                    OutlineInputBorder(
+                                                    twitterdetailscontroller,
+                                                decoration: InputDecoration(
+                                                    border: OutlineInputBorder(
                                                       borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          8.0),
+                                                          BorderRadius.circular(
+                                                              8.0),
                                                       borderSide:
-                                                      BorderSide
-                                                          .none,
+                                                          BorderSide.none,
                                                     ),
                                                     filled: true,
-                                                    fillColor: Colors
-                                                        .blueGrey
-                                                        .shade50,
-                                                    labelText:
-                                                    "Twitter",
+                                                    fillColor:
+                                                        Colors.blueGrey.shade50,
+                                                    labelText: "Twitter",
                                                     labelStyle: TextStyle(
-                                                        color: Colors
-                                                            .blueGrey),
+                                                        color: Colors.blueGrey),
                                                     prefixIcon: Icon(
-                                                      FontAwesomeIcons
-                                                          .twitter,
-                                                      color: Colors
-                                                          .blueGrey[
-                                                      300],
+                                                      FontAwesomeIcons.twitter,
+                                                      color:
+                                                          Colors.blueGrey[300],
                                                     )),
                                               ),
                                               SizedBox(
                                                 height: 15,
                                               ),
                                               FutureBuilder(
-                                                  future:
-                                                  downloadjson_Future,
-                                                  builder: (context,
-                                                      snapshot) {
+                                                  future: downloadjson_Future,
+                                                  builder: (context, snapshot) {
                                                     return IntlPhoneField(
+                                                      autovalidateMode:
+                                                          AutovalidateMode
+                                                              .disabled,
+                                                      disableLengthCheck: true,
                                                       controller:
-                                                      whatsappnocontroller,
+                                                          whatsappnocontroller,
                                                       keyboardType:
-                                                      TextInputType
-                                                          .number,
+                                                          TextInputType.number,
                                                       inputFormatters: <
                                                           TextInputFormatter>[
                                                         FilteringTextInputFormatter
@@ -2383,43 +2299,37 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                                           color: Color(
                                                               0xFF505D6E)),
                                                       decoration:
-                                                      InputDecoration(
+                                                          InputDecoration(
                                                         border:
-                                                        OutlineInputBorder(
+                                                            OutlineInputBorder(
                                                           borderRadius:
-                                                          BorderRadius
-                                                              .circular(
-                                                              8.0),
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      8.0),
                                                           borderSide:
-                                                          BorderSide
-                                                              .none,
+                                                              BorderSide.none,
                                                         ),
                                                         filled: true,
                                                         fillColor: Colors
-                                                            .blueGrey
-                                                            .shade50,
-                                                        labelText:
-                                                        "Whatsapp",
+                                                            .blueGrey.shade50,
+                                                        labelText: "Whatsapp",
                                                         labelStyle: TextStyle(
                                                             color: Colors
                                                                 .blueGrey),
                                                       ),
                                                       initialCountryCode:
-                                                      // country_whatsappnumber2 =
-                                                      updateprofilelist[
-                                                      0]
-                                                          .country_whatsappnumber2
-                                                          .toString(),
+                                                          // country_whatsappnumber2 =
+                                                          updateprofilelist[0]
+                                                              .country_whatsappnumber2
+                                                              .toString(),
                                                       onCountryChanged:
                                                           (country) {
                                                         print(
                                                             'Country changed to: ' +
-                                                                country
-                                                                    .name);
+                                                                country.name);
                                                         print(
                                                             'Country changed to: ' +
-                                                                country
-                                                                    .code);
+                                                                country.code);
                                                         country_whatsappnumber2 =
                                                             country.code;
                                                       },
@@ -2430,37 +2340,27 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                               ),
                                               TextField(
                                                 style: TextStyle(
-                                                    color: Color(
-                                                        0xFF505D6E)),
+                                                    color: Color(0xFF505D6E)),
                                                 controller:
-                                                telegramurlcontroller,
-                                                decoration:
-                                                InputDecoration(
-                                                    border:
-                                                    OutlineInputBorder(
+                                                    telegramurlcontroller,
+                                                decoration: InputDecoration(
+                                                    border: OutlineInputBorder(
                                                       borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          8.0),
+                                                          BorderRadius.circular(
+                                                              8.0),
                                                       borderSide:
-                                                      BorderSide
-                                                          .none,
+                                                          BorderSide.none,
                                                     ),
                                                     filled: true,
-                                                    fillColor: Colors
-                                                        .blueGrey
-                                                        .shade50,
-                                                    labelText:
-                                                    "Telegram Url",
+                                                    fillColor:
+                                                        Colors.blueGrey.shade50,
+                                                    labelText: "Telegram Url",
                                                     labelStyle: TextStyle(
-                                                        color: Colors
-                                                            .blueGrey),
+                                                        color: Colors.blueGrey),
                                                     prefixIcon: Icon(
-                                                      FontAwesomeIcons
-                                                          .telegram,
-                                                      color: Colors
-                                                          .blueGrey[
-                                                      300],
+                                                      FontAwesomeIcons.telegram,
+                                                      color:
+                                                          Colors.blueGrey[300],
                                                     )),
                                               ),
                                               SizedBox(
@@ -2468,37 +2368,26 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                               ),
                                               TextField(
                                                 style: TextStyle(
-                                                    color: Color(
-                                                        0xFF505D6E)),
-                                                controller:
-                                                youtubecontroller,
-                                                decoration:
-                                                InputDecoration(
-                                                    border:
-                                                    OutlineInputBorder(
+                                                    color: Color(0xFF505D6E)),
+                                                controller: youtubecontroller,
+                                                decoration: InputDecoration(
+                                                    border: OutlineInputBorder(
                                                       borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          8.0),
+                                                          BorderRadius.circular(
+                                                              8.0),
                                                       borderSide:
-                                                      BorderSide
-                                                          .none,
+                                                          BorderSide.none,
                                                     ),
                                                     filled: true,
-                                                    fillColor: Colors
-                                                        .blueGrey
-                                                        .shade50,
-                                                    labelText:
-                                                    "Youtube",
+                                                    fillColor:
+                                                        Colors.blueGrey.shade50,
+                                                    labelText: "Youtube",
                                                     labelStyle: TextStyle(
-                                                        color: Colors
-                                                            .blueGrey),
+                                                        color: Colors.blueGrey),
                                                     prefixIcon: Icon(
-                                                      FontAwesomeIcons
-                                                          .youtube,
-                                                      color: Colors
-                                                          .blueGrey[
-                                                      300],
+                                                      FontAwesomeIcons.youtube,
+                                                      color:
+                                                          Colors.blueGrey[300],
                                                     )),
                                               ),
                                               SizedBox(
@@ -2506,37 +2395,27 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                               ),
                                               TextField(
                                                 style: TextStyle(
-                                                    color: Color(
-                                                        0xFF505D6E)),
-                                                controller:
-                                                pinterestcontroller,
-                                                decoration:
-                                                InputDecoration(
-                                                    border:
-                                                    OutlineInputBorder(
+                                                    color: Color(0xFF505D6E)),
+                                                controller: pinterestcontroller,
+                                                decoration: InputDecoration(
+                                                    border: OutlineInputBorder(
                                                       borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          8.0),
+                                                          BorderRadius.circular(
+                                                              8.0),
                                                       borderSide:
-                                                      BorderSide
-                                                          .none,
+                                                          BorderSide.none,
                                                     ),
                                                     filled: true,
-                                                    fillColor: Colors
-                                                        .blueGrey
-                                                        .shade50,
-                                                    labelText:
-                                                    "Pinterest",
+                                                    fillColor:
+                                                        Colors.blueGrey.shade50,
+                                                    labelText: "Pinterest",
                                                     labelStyle: TextStyle(
-                                                        color: Colors
-                                                            .blueGrey),
+                                                        color: Colors.blueGrey),
                                                     prefixIcon: Icon(
                                                       FontAwesomeIcons
                                                           .pinterest,
-                                                      color: Colors
-                                                          .blueGrey[
-                                                      300],
+                                                      color:
+                                                          Colors.blueGrey[300],
                                                     )),
                                               ),
                                               SizedBox(
@@ -2544,11 +2423,9 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                               ),
                                               Row(
                                                   mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .start,
+                                                      MainAxisAlignment.start,
                                                   crossAxisAlignment:
-                                                  CrossAxisAlignment
-                                                      .start,
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     Expanded(
                                                       child: Text(
@@ -2556,11 +2433,11 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                                         softWrap: true,
                                                         style: TextStyle(
                                                             fontSize: 15,
-                                                            color: Colors
-                                                                .black54,
+                                                            color:
+                                                                Colors.black54,
                                                             fontWeight:
-                                                            FontWeight
-                                                                .bold),
+                                                                FontWeight
+                                                                    .bold),
                                                       ),
                                                     )
                                                   ]),
@@ -2569,125 +2446,149 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                               ),
                                               Container(
                                                   height: 30,
-                                                  width: double
-                                                      .infinity,
-                                                  color:
-                                                  Colors.blueGrey[50],
-                                                  child: _fileName4 !=
-                                                      null
-                                                      ? Text(
-                                                    '      $_fileName4',
-                                                    style: TextStyle(
-                                                        height: 1.5,
-                                                        fontSize:
-                                                        16,
-                                                        color: Colors
-                                                            .black54),
-                                                  )
-                                                      : (broucherimage ==
-                                                      null ||
-                                                      broucherimage ==
-                                                          '')
-                                                      ? Text(
-                                                      ' No File Chosen',
-                                                      style: TextStyle(
-                                                          height:
-                                                          1.5,
-                                                          fontSize:
-                                                          15,
-                                                          color: Colors
-                                                              .black54))
-                                                      : Text(
-                                                    ' $broucherimage',
-                                                    style: TextStyle(
-                                                        height:
-                                                        1.5,
-                                                        fontSize:
-                                                        16,
-                                                        color: Colors
-                                                            .black54),
-                                                  )),
+                                                  width: double.infinity,
+                                                  color: Colors.blueGrey[50],
+                                                  child: isLoading4
+                                                      ? SizedBox(
+                                                          child: Center(
+                                                              child:
+                                                                  CircularProgressIndicator()),
+                                                          height: 10.0,
+                                                          width: 10.0,
+                                                        )
+                                                      : _fileName4 != null
+                                                          ? Text(
+                                                              '      $_fileName4',
+                                                              style: TextStyle(
+                                                                  height: 1.5,
+                                                                  fontSize: 16,
+                                                                  color: Colors
+                                                                      .black54),
+                                                            )
+                                                          : (broucherimage ==
+                                                                      null ||
+                                                                  broucherimage ==
+                                                                      '')
+                                                              ? Text(
+                                                                  ' No File Chosen',
+                                                                  style: TextStyle(
+                                                                      height:
+                                                                          1.5,
+                                                                      fontSize:
+                                                                          15,
+                                                                      color: Colors
+                                                                          .black54))
+                                                              : Text(
+                                                                  ' $broucherimage',
+                                                                  style: TextStyle(
+                                                                      height:
+                                                                          1.5,
+                                                                      fontSize:
+                                                                          16,
+                                                                      color: Colors
+                                                                          .black54),
+                                                                )),
                                               SizedBox(
                                                 height: 10,
                                               ),
                                               Center(
                                                   child: ElevatedButton(
-                                                      child: Text(
-                                                          'Choose File',
+                                                      child: Text('Choose File',
                                                           style: TextStyle(
-                                                              fontSize:
-                                                              15,
+                                                              fontSize: 15,
                                                               color: Colors
                                                                   .blueGrey)),
-                                                      style:
-                                                      ElevatedButton
+                                                      style: ElevatedButton
                                                           .styleFrom(
                                                         primary: Colors
-                                                            .blueGrey[
-                                                        100],
+                                                            .blueGrey[100],
                                                       ),
-                                                      onPressed:
-                                                          () async {
+                                                      onPressed: () async {
                                                         final uploadInput =
-                                                        FileUploadInputElement();
-                                                        uploadInput
-                                                            .accept =
-                                                        'image/*,application/pdf';
-                                                        uploadInput
-                                                            .click();
-                                                        uploadInput
-                                                            .onChange
+                                                            FileUploadInputElement();
+                                                        uploadInput.accept =
+                                                            'image/*,application/pdf';
+                                                        setState(() {
+                                                          isLoading4 = true;
+                                                        });
+                                                        uploadInput.click();
+                                                        uploadInput.onChange
                                                             .listen((e) {
                                                           final filename =
                                                               uploadInput
-                                                                  .files
-                                                                  ?.first;
+                                                                  .files?.first;
                                                           final files =
-                                                              uploadInput
-                                                                  .files;
-                                                          if (files!
-                                                              .length ==
+                                                              uploadInput.files;
+                                                          if (files!.length ==
                                                               1) {
                                                             final file =
-                                                            files[0];
+                                                                files[0];
                                                             final reader =
-                                                            FileReader();
-                                                            reader
-                                                                .onLoadEnd
+                                                                FileReader();
+                                                            reader.onLoadEnd
                                                                 .listen(
                                                                     (e) async {
-                                                                  final bytes = Base64Decoder().convert(reader
+                                                              final bytes = Base64Decoder()
+                                                                  .convert(reader
                                                                       .result
                                                                       .toString()
                                                                       .split(
-                                                                      ",")
+                                                                          ",")
                                                                       .last);
-                                                                  setState(
-                                                                          () {
-                                                                        if (bytes !=
-                                                                            null) {
-                                                                          _fileName4 =
-                                                                              filename?.name;
-                                                                          print(_fileName4
-                                                                              .toString());
-                                                                          _fileBytes4 =
-                                                                              bytes;
-                                                                          updateBytes4 =
-                                                                              bytes;
-                                                                          if (_fileName4 !=
-                                                                              null) {
-                                                                            updatebroucher =
-                                                                            '1';
-                                                                          }
-                                                                        }
-                                                                      });
-                                                                });
+                                                              setState(() {
+                                                                if (bytes !=
+                                                                    null) {
+                                                                  _fileName4 =
+                                                                      filename
+                                                                          ?.name;
+                                                                  print(_fileName4
+                                                                      .toString());
+                                                                  _fileBytes4 =
+                                                                      bytes;
+                                                                  updateBytes4 =
+                                                                      bytes;
+                                                                  if (_fileName4 !=
+                                                                      null) {
+                                                                    updatebroucher =
+                                                                        '1';
+                                                                  }
+                                                                }
+                                                              });
+                                                            });
                                                             reader
                                                                 .readAsDataUrl(
-                                                                file);
+                                                                    file);
                                                           }
+                                                          setState(() {
+                                                            isLoading4 = false;
+                                                          });
                                                         });
+                                                        void
+                                                            cancelledeventlistener(
+                                                                e) {
+                                                          Future.delayed(
+                                                              Duration(
+                                                                  seconds: 6),
+                                                              () {
+                                                            if (uploadInput
+                                                                .files!
+                                                                .isEmpty) {
+                                                              html.window
+                                                                  .removeEventListener(
+                                                                      'focus',
+                                                                      cancelledeventlistener);
+                                                              setState(() {
+                                                                isLoading4 =
+                                                                    false;
+                                                              });
+                                                            }
+                                                          });
+                                                        }
 
+                                                        html.window
+                                                            .addEventListener(
+                                                                'focus',
+                                                                cancelledeventlistener);
                                                         // FilePickerResult? result =
                                                         //     await FilePicker.platform
                                                         //         .pickFiles(
@@ -2712,24 +2613,20 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                               ),
                                               Row(
                                                   mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .start,
+                                                      MainAxisAlignment.start,
                                                   crossAxisAlignment:
-                                                  CrossAxisAlignment
-                                                      .start,
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     Expanded(
                                                         child: Text(
-                                                          "Upload images to create your Gallery (jpg,png)",
-                                                          softWrap: true,
-                                                          style: TextStyle(
-                                                              fontSize: 15,
-                                                              color: Colors
-                                                                  .black54,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .bold),
-                                                        )),
+                                                      "Upload images to create your Gallery (jpg,png)",
+                                                      softWrap: true,
+                                                      style: TextStyle(
+                                                          fontSize: 15,
+                                                          color: Colors.black54,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    )),
                                                   ]),
                                               SizedBox(
                                                 height: 20,
@@ -2737,61 +2634,56 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                               Container(
                                                   height: 30,
                                                   width: double.infinity,
-                                                  color:
-                                                  Colors.blueGrey[50],
+                                                  color: Colors.blueGrey[50],
                                                   child: _fileNames5List
-                                                      .isNotEmpty
+                                                          .isNotEmpty
                                                       ? Text(
-                                                    '' +
-                                                        _fileNames5List
-                                                            .length
-                                                            .toString() +
-                                                        ((int.parse(_fileNames5List.length.toString()) >
-                                                            1)
-                                                            ? ' files'
-                                                            : ' file'),
-                                                    style: TextStyle(
-                                                        height: 1.5,
-                                                        fontSize:
-                                                        16,
-                                                        color: Colors
-                                                            .black54),
-                                                  )
-                                                      : Text(
-                                                      ' No File Chosen',
-                                                      style: TextStyle(
-                                                          height: 1.5,
-                                                          fontSize:
-                                                          15,
-                                                          color: Colors
-                                                              .black54))),
+                                                          '' +
+                                                              _fileNames5List
+                                                                  .length
+                                                                  .toString() +
+                                                              ((int.parse(_fileNames5List
+                                                                          .length
+                                                                          .toString()) >
+                                                                      1)
+                                                                  ? ' files'
+                                                                  : ' file'),
+                                                          style: TextStyle(
+                                                              height: 1.5,
+                                                              fontSize: 16,
+                                                              color: Colors
+                                                                  .black54),
+                                                        )
+                                                      : Text(' No File Chosen',
+                                                          style: TextStyle(
+                                                              height: 1.5,
+                                                              fontSize: 15,
+                                                              color: Colors
+                                                                  .black54))),
                                               SizedBox(
                                                 height: 10,
                                               ),
                                               Center(
                                                   child: ElevatedButton(
-                                                      child: Text(
-                                                          'Choose File',
+                                                      child: Text('Choose File',
                                                           style: TextStyle(
-                                                              fontSize:
-                                                              15,
+                                                              fontSize: 15,
                                                               color: Colors
                                                                   .blueGrey)),
-                                                      style:
-                                                      ElevatedButton
+                                                      style: ElevatedButton
                                                           .styleFrom(
                                                         primary: Colors
-                                                            .blueGrey[
-                                                        100],
+                                                            .blueGrey[100],
                                                       ),
-                                                      onPressed:
-                                                          () async {
+                                                      onPressed: () async {
                                                         final input =
-                                                        FileUploadInputElement();
+                                                            FileUploadInputElement();
                                                         input.accept =
-                                                        'image/*';
-                                                        input.multiple =
-                                                        true;
+                                                            'image/*';
+                                                        input.multiple = true;
+                                                        setState(() {
+                                                          isLoading5 = true;
+                                                        });
                                                         input.click();
                                                         input.onChange
                                                             .listen((e) {
@@ -2799,44 +2691,63 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                                               input.files;
 
                                                           for (var file
-                                                          in files!) {
+                                                              in files!) {
                                                             final reader =
-                                                            FileReader();
-                                                            reader
-                                                                .onLoadEnd
+                                                                FileReader();
+                                                            reader.onLoadEnd
                                                                 .listen(
                                                                     (e) async {
-                                                                  final bytes = Base64Decoder().convert(reader
+                                                              final bytes = Base64Decoder()
+                                                                  .convert(reader
                                                                       .result
                                                                       .toString()
                                                                       .split(
-                                                                      ",")
+                                                                          ",")
                                                                       .last);
-                                                                  setState(
-                                                                          () {
-                                                                        if (bytes !=
-                                                                            null) {
-                                                                          _fileBytes5 =
-                                                                              bytes;
-                                                                          // updateBytes =
-                                                                          //     bytes;
-                                                                          _fileName5 =
-                                                                              file?.name;
-                                                                          _fileNames5List
-                                                                              .add(_fileName5.toString());
-                                                                          _fileBytesList5
-                                                                              .add(_fileBytes5!);
-                                                                          print(_fileNames5List
-                                                                              .toString());
-                                                                        }
-                                                                      });
-                                                                });
+                                                              setState(() {
+                                                                if (bytes !=
+                                                                    null) {
+                                                                  _fileBytes5 =
+                                                                      bytes;
+                                                                  // updateBytes =
+                                                                  //     bytes;
+                                                                  _fileName5 =
+                                                                      file?.name;
+                                                                  _fileNames5List.add(
+                                                                      _fileName5
+                                                                          .toString());
+                                                                  _fileBytesList5
+                                                                      .add(
+                                                                          _fileBytes5!);
+                                                                  print(_fileNames5List
+                                                                      .toString());
+                                                                }
+                                                              });
+                                                            });
                                                             reader
                                                                 .readAsDataUrl(
-                                                                file);
+                                                                    file);
                                                           }
+                                                          setState(() {
+                                                            isLoading5 = false;
+                                                          });
                                                         });
+                                                        void cancelledeventlistener(e) {
+                                                          Future.delayed(Duration(seconds: 6), () {
+                                                            if (input.files!.isEmpty) {
+                                                              html.window.removeEventListener('focus', cancelledeventlistener);
+                                                              setState(() {
+                                                                isLoading5 = false;
+                                                              });
+                                                            }
+                                                          });
+                                                        }
 
+                                                        html.window
+                                                            .addEventListener(
+                                                            'focus',
+                                                            cancelledeventlistener);
+                                                        setState(() {});
                                                         // FilePickerResult? result =
                                                         //     await FilePicker.platform
                                                         //         .pickFiles(
@@ -2868,186 +2779,202 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                               ),
                                               FutureBuilder(
                                                   future: multiple_Future,
-                                                  builder: (context,
-                                                      snapshot) {
-                                                    return snapshot
-                                                        .hasData
-                                                        ? GridView
-                                                        .builder(
-                                                      shrinkWrap:
-                                                      true,
-                                                      itemCount:
-                                                      multiplelist
-                                                          .length,
-                                                      gridDelegate:
-                                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                                        crossAxisCount:
-                                                        2,
-                                                        childAspectRatio: MediaQuery.of(context)
-                                                            .size
-                                                            .width /
-                                                            (MediaQuery.of(context).size.height /
-                                                                1.8),
-                                                        // crossAxisSpacing:
-                                                        //     10.0,
-                                                        // mainAxisSpacing:
-                                                        //     4.0
-                                                      ),
-                                                      itemBuilder:
-                                                          (BuildContext
-                                                      context,
-                                                          int index) {
-                                                        return SingleChildScrollView(
-                                                            child: Center(
-                                                                child: Wrap(
-                                                                  spacing:
-                                                                  7,
-                                                                  direction:
-                                                                  Axis.horizontal,
-                                                                  children: [
-                                                                    Column(
-                                                                      children: [
-                                                                        SizedBox(height: 2),
-                                                                        Image.network(
-                                                                          multiplelist[index].image.toString(),
-                                                                          width: 80,
-                                                                          height: 80,
+                                                  builder: (context, snapshot) {
+                                                    return snapshot.hasData
+                                                        ? GridView.builder(
+                                                            shrinkWrap: true,
+                                                            itemCount:
+                                                                multiplelist
+                                                                    .length,
+                                                            gridDelegate:
+                                                                SliverGridDelegateWithFixedCrossAxisCount(
+                                                              crossAxisCount: 2,
+                                                              childAspectRatio: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width /
+                                                                  (MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .height /
+                                                                      1.8),
+                                                              // crossAxisSpacing:
+                                                              //     10.0,
+                                                              // mainAxisSpacing:
+                                                              //     4.0
+                                                            ),
+                                                            itemBuilder:
+                                                                (BuildContext
+                                                                        context,
+                                                                    int index) {
+                                                              return SingleChildScrollView(
+                                                                  child: Center(
+                                                                      child:
+                                                                          Wrap(
+                                                                spacing: 7,
+                                                                direction: Axis
+                                                                    .horizontal,
+                                                                children: [
+                                                                  Column(
+                                                                    children: [
+                                                                      SizedBox(
+                                                                          height:
+                                                                              2),
+                                                                      Image
+                                                                          .network(
+                                                                        multiplelist[index]
+                                                                            .image
+                                                                            .toString(),
+                                                                        width:
+                                                                            80,
+                                                                        height:
+                                                                            80,
+                                                                      ),
+                                                                      SizedBox(
+                                                                          height:
+                                                                              3),
+                                                                      Container(
+                                                                          child:
+                                                                              Text(
+                                                                        ' ${multiplelist[index].imageindex.toString()} ',
+                                                                        softWrap:
+                                                                            true,
+                                                                        style: TextStyle(
+                                                                            color:
+                                                                                Colors.black45,
+                                                                            fontSize: 10),
+                                                                      )),
+                                                                      SizedBox(
+                                                                          height:
+                                                                              3),
+                                                                      ElevatedButton(
+                                                                        style: ElevatedButton
+                                                                            .styleFrom(
+                                                                          primary:
+                                                                              Colors.blueGrey[100],
                                                                         ),
-                                                                        SizedBox(height: 3),
-                                                                        Container(
-                                                                            child: Text(
-                                                                              ' ${multiplelist[index].imageindex.toString()} ',
-                                                                              softWrap: true,
-                                                                              style: TextStyle(color: Colors.black45, fontSize: 10),
-                                                                            )),
-                                                                        SizedBox(height: 3),
-                                                                        ElevatedButton(
-                                                                          style: ElevatedButton.styleFrom(
-                                                                            primary: Colors.blueGrey[100],
-                                                                          ),
-                                                                          onPressed: () {
-                                                                            Deleteimagedata(context, multiplelist[index].id.toString(),index);
-                                                                          },
-                                                                          child: Text(
-                                                                            'Remove Image',
-                                                                            style: TextStyle(color: Colors.blueGrey, fontSize: 9),
-                                                                          ),
+                                                                        onPressed:
+                                                                            () {
+                                                                          Deleteimagedata(
+                                                                              context,
+                                                                              multiplelist[index].id.toString(),
+                                                                              index);
+                                                                        },
+                                                                        child:
+                                                                            Text(
+                                                                          'Remove Image',
+                                                                          style: TextStyle(
+                                                                              color: Colors.blueGrey,
+                                                                              fontSize: 9),
                                                                         ),
-                                                                        SizedBox(height: 3),
-                                                                      ],
-                                                                    ),
-                                                                  ],
-                                                                )));
-                                                      },
-                                                    )
+                                                                      ),
+                                                                      SizedBox(
+                                                                          height:
+                                                                              3),
+                                                                    ],
+                                                                  ),
+                                                                ],
+                                                              )));
+                                                            },
+                                                          )
                                                         : Text('');
                                                   }),
+                                              isLoading5
+                                                  ? CircularProgressIndicator()
+                                                  :
                                               (_fileBytesList5.isNotEmpty)
                                                   ? Center(
-                                                  child: Wrap(
-                                                    spacing: 13,
-                                                    direction:
-                                                    Axis.horizontal,
-                                                    children: [
-                                                      for (int i = 0;
-                                                      i <
-                                                          _fileBytesList5
-                                                              .length;
-                                                      i++)
-                                                        Column(
-                                                          children: [
-                                                            SizedBox(
-                                                                height:
-                                                                2),
-                                                            // // Displaying the selected images
-                                                            // if (_fileNames5List[i]
-                                                            //         .toLowerCase()
-                                                            //         .endsWith(
-                                                            //             '.jpg') ||
-                                                            //     _fileNames5List[i]
-                                                            //         .toLowerCase()
-                                                            //         .endsWith('.png'))
-                                                            Image
-                                                                .memory(
-                                                              _fileBytesList5[
-                                                              i],
-                                                              width: 80,
-                                                              height:
-                                                              80,
-                                                            ),
-                                                            SizedBox(
-                                                                height:
-                                                                3),
-                                                            Container(
-                                                                child:
-                                                                Text(
-                                                                  ' ${_fileNames5List[i]} ',
-                                                                  softWrap:
-                                                                  true,
+                                                      child: Wrap(
+                                                      spacing: 13,
+                                                      direction:
+                                                          Axis.horizontal,
+                                                      children: [
+                                                        for (int i = 0;
+                                                            i <
+                                                                _fileBytesList5
+                                                                    .length;
+                                                            i++)
+                                                          Column(
+                                                            children: [
+                                                              SizedBox(
+                                                                  height: 2),
+                                                              // // Displaying the selected images
+                                                              // if (_fileNames5List[i]
+                                                              //         .toLowerCase()
+                                                              //         .endsWith(
+                                                              //             '.jpg') ||
+                                                              //     _fileNames5List[i]
+                                                              //         .toLowerCase()
+                                                              //         .endsWith('.png'))
+                                                              Image.memory(
+                                                                _fileBytesList5[
+                                                                    i],
+                                                                width: 80,
+                                                                height: 80, filterQuality: FilterQuality.low
+                                                              ),
+                                                              SizedBox(
+                                                                  height: 3),
+                                                              Container(
+                                                                  child: Text(
+                                                                ' ${_fileNames5List[i]} ',
+                                                                softWrap: true,
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .black45,
+                                                                    fontSize:
+                                                                        10),
+                                                              )),
+                                                              SizedBox(
+                                                                  height: 3),
+                                                              ElevatedButton(
+                                                                style: ElevatedButton
+                                                                    .styleFrom(
+                                                                  primary: Colors
+                                                                          .blueGrey[
+                                                                      100],
+                                                                ),
+                                                                onPressed: () {
+                                                                  _removeImage(
+                                                                      i);
+                                                                },
+                                                                child: Text(
+                                                                  'Remove Image',
                                                                   style: TextStyle(
                                                                       color: Colors
-                                                                          .black45,
+                                                                          .blueGrey,
                                                                       fontSize:
-                                                                      10),
-                                                                )),
-                                                            SizedBox(
-                                                                height:
-                                                                3),
-                                                            ElevatedButton(
-                                                              style: ElevatedButton
-                                                                  .styleFrom(
-                                                                primary:
-                                                                Colors.blueGrey[100],
+                                                                          9),
+                                                                ),
                                                               ),
-                                                              onPressed:
-                                                                  () {
-                                                                _removeImage(
-                                                                    i);
-                                                              },
-                                                              child:
-                                                              Text(
-                                                                'Remove Image',
-                                                                style: TextStyle(
-                                                                    color:
-                                                                    Colors.blueGrey,
-                                                                    fontSize: 9),
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                                height:
-                                                                3),
-                                                          ],
-                                                        ),
-                                                    ],
-                                                  ))
+                                                              SizedBox(
+                                                                  height: 3),
+                                                            ],
+                                                          ),
+                                                      ],
+                                                    ))
                                                   : Text(''),
                                               SizedBox(
                                                 height: 15,
                                               ),
                                               Row(
                                                   mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .start,
+                                                      MainAxisAlignment.start,
                                                   crossAxisAlignment:
-                                                  CrossAxisAlignment
-                                                      .center,
+                                                      CrossAxisAlignment.center,
                                                   children: [
                                                     Checkbox(
                                                       value: (value_check
-                                                          .toString() ==
-                                                          '1')
+                                                                  .toString() ==
+                                                              '1')
                                                           ? true
                                                           : false,
-                                                      onChanged:
-                                                          (bool? value) {
+                                                      onChanged: (bool? value) {
                                                         setState(() {
-                                                          this.value =
-                                                          value!;
+                                                          this.value = value!;
                                                           value_check =
-                                                          (value ==
-                                                              false)
-                                                              ? 0
-                                                              : 1;
+                                                              (value == false)
+                                                                  ? 0
+                                                                  : 1;
                                                         });
                                                       },
                                                     ),
@@ -3056,32 +2983,28 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                                         'I agree with all the ',
                                                         style: TextStyle(
                                                             fontWeight:
-                                                            FontWeight
-                                                                .bold,
+                                                                FontWeight.bold,
                                                             fontSize: 15,
-                                                            color: Colors
-                                                                .black)),
+                                                            color:
+                                                                Colors.black)),
                                                     TextButton(
                                                       onPressed: () {},
                                                       style: TextButton.styleFrom(
                                                           padding:
-                                                          EdgeInsets
-                                                              .zero,
+                                                              EdgeInsets.zero,
                                                           minimumSize:
-                                                          Size(
-                                                              50, 30),
+                                                              Size(50, 30),
                                                           tapTargetSize:
-                                                          MaterialTapTargetSize
-                                                              .shrinkWrap,
+                                                              MaterialTapTargetSize
+                                                                  .shrinkWrap,
                                                           alignment: Alignment
                                                               .centerLeft),
                                                       child: Text('T&C',
                                                           style: TextStyle(
                                                               fontWeight:
-                                                              FontWeight
-                                                                  .bold,
-                                                              fontSize:
-                                                              15,
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 15,
                                                               color: Color(
                                                                   0xFFCC9B60))),
                                                     ),
@@ -3091,38 +3014,42 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                               ),
                                               Row(
                                                   mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .center,
+                                                      MainAxisAlignment.center,
                                                   crossAxisAlignment:
-                                                  CrossAxisAlignment
-                                                      .center,
+                                                      CrossAxisAlignment.center,
                                                   children: [
                                                     ElevatedButton(
-                                                      child:Text(
+                                                      child: Text(
                                                           'Save & Update Profile',
                                                           style: TextStyle(
-                                                              fontSize:
-                                                              17,
+                                                              fontSize: 17,
                                                               color: Colors
                                                                   .white)),
-                                                      style:
-                                                      ElevatedButton
+                                                      style: ElevatedButton
                                                           .styleFrom(
-                                                        primary: Color(
-                                                            0xFFCC9B60),
+                                                        primary:
+                                                            Color(0xFFCC9B60),
                                                       ),
                                                       onPressed: () {
-                                                        if (fullnamecontroller.text != "" &&
-                                                            contactnumbercontroller.text !=
-                                                                "" &&
-                                                            companynamecontroller
-                                                                .text !=
-                                                                ""&&
-                                                            emailaddresscontroller
-                                                                .text !=
-                                                                "") {
-                                                          Insertdata(
-                                                              context);
+                                                        if (fullnamecontroller
+                                                                        .text !=
+                                                                    "" &&
+                                                                contactnumbercontroller
+                                                                        .text !=
+                                                                    ""
+                                                            // && companynamecontroller
+                                                            //     .text != ""&&
+                                                            // emailaddresscontroller
+                                                            //     .text !=
+                                                            //     ""
+                                                            ) {
+                                                          //setState(() {
+                                                          showDialog(
+                                                              context: context,
+                                                              builder: (context) => Center(
+                                                                  child: CircularProgressIndicator()));
+                                                          //});
+                                                          Insertdata(context);
                                                         }
                                                         // else if (value_check
                                                         //     .toString() ==
@@ -3137,12 +3064,12 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                                         // }
                                                         else {
                                                           ScaffoldMessenger.of(
-                                                              context)
+                                                                  context)
                                                               .showSnackBar(
-                                                              SnackBar(
-                                                                content: Text(
-                                                                    "Please fill all credentials"),
-                                                              ));
+                                                                  SnackBar(
+                                                            content: Text(
+                                                                "Please fill all credentials"),
+                                                          ));
                                                         }
                                                         //Insertdata(context);
                                                       },
@@ -3151,7 +3078,7 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                               SizedBox(
                                                 height: 20,
                                               ),
-                                            ]))))))),
+                                            ])),
                 SizedBox(
                   height: 20,
                 ),
@@ -3160,11 +3087,67 @@ class admin_update_profile2 extends State<admin_update_profile> {
                   child: Text(
                     "Powered by FUTURE INFOTECH",
                     style: TextStyle(
-                        color: Colors.black26,
-                        fontWeight: FontWeight.bold),
+                        color: Colors.black26, fontWeight: FontWeight.bold),
                   ),
                 ),
               ]),
         ));
   }
 }
+
+// class LoadingIndicatorDialog {
+//   static final LoadingIndicatorDialog _singleton =
+//       LoadingIndicatorDialog._internal();
+//   late BuildContext _context;
+//   bool isDisplayed = false;
+//
+//   factory LoadingIndicatorDialog() {
+//     return _singleton;
+//   }
+//
+//   LoadingIndicatorDialog._internal();
+//
+//   show(BuildContext context, {String text = 'Loading...'}) {
+//     if (isDisplayed) {
+//       return;
+//     }
+//     showDialog<void>(
+//         context: context,
+//         barrierDismissible: false,
+//         builder: (BuildContext context) {
+//           _context = context;
+//           isDisplayed = true;
+//           return WillPopScope(
+//             onWillPop: () async => false,
+//             child: SimpleDialog(
+//               backgroundColor: Colors.white,
+//               children: [
+//                 Center(
+//                   child: Column(
+//                     mainAxisSize: MainAxisSize.min,
+//                     children: [
+//                       Padding(
+//                         padding:
+//                             const EdgeInsets.only(left: 16, top: 16, right: 16),
+//                         child: CircularProgressIndicator(),
+//                       ),
+//                       Padding(
+//                         padding: const EdgeInsets.all(16),
+//                         child: Text(text),
+//                       )
+//                     ],
+//                   ),
+//                 )
+//               ],
+//             ),
+//           );
+//         });
+//   }
+//
+//   dismiss() {
+//     if (isDisplayed) {
+//       Navigator.of(_context).pop();
+//       isDisplayed = false;
+//     }
+//   }
+// }
