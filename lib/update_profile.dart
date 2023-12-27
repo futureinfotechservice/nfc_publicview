@@ -4,7 +4,7 @@ import 'dart:html';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -15,6 +15,7 @@ import 'dpscreen2.dart';
 import 'main.dart';
 import 'package:http/http.dart' as http;
 import 'dart:html' as html;
+import 'dart:ui' as ui;
 
 class listdata {
   String profile_image;
@@ -274,6 +275,8 @@ class admin_update_profile2 extends State<admin_update_profile> {
   late Future<List> downloadjson_Future;
 
   String profile_image = '';
+
+
 
   Future<List<listdata>> downloadJSON(context) async {
     reportlist.clear();
@@ -1646,6 +1649,8 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                                               .listen((e) {
                                                             final filename =
                                                                 input.files?.first;
+
+
                                                             final files =
                                                                 input.files;
 
@@ -1654,63 +1659,52 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                                               final file =
                                                                   files[0];
 
-                                                              final reader =
-                                                                  FileReader();
+                                                              final reader = FileReader();
                                                               reader.onLoadEnd
                                                                   .listen(
                                                                       (e) async {
 
                                                                 final bytes = Base64Decoder()
-                                                                    .convert(reader
-                                                                        .result
-                                                                        .toString()
+                                                                    .convert(reader.result.toString()
                                                                         .split(
                                                                             ",")
                                                                         .last);
 
-                                                                setState(() {
+                                                                setState(()    {
                                                                   if (bytes != null) {
-                                                                    _fileName =
-                                                                        filename
-                                                                            ?.name;
+                                                                    _fileName = filename?.name;
+                                                                    print(_fileName);
 
-                                                                    fileBytes =
-                                                                        bytes;
-                                                                    updateBytes =
-                                                                        bytes;
-                                                                    if (_fileName !=
-                                                                        null) {
-                                                                      updateprofile =
-                                                                          '1';
+                                                                   fileBytes = bytes;
+                                                                   updateBytes = bytes;
+
+
+                                                                    if (_fileName != null) {
+                                                                      updateprofile = '1';
                                                                     }
                                                                   }
                                                                 });
                                                               });
                                                               reader
-                                                                  .readAsDataUrl(
-                                                                      file);
+                                                                  .readAsDataUrl(file);
                                                             }
                                                             setState(() {
                                                               isLoading = false;
                                                             });
                                                           });
-                                                          void
-                                                              cancelledeventlistener(
-                                                                  e) {
+                                                          void cancelledeventlistener(e) {
                                                             Future.delayed(
                                                                 Duration(
                                                                     seconds: 6),
                                                                 () {
-                                                              if (input.files!
-                                                                  .isEmpty) {
+                                                              if (input.files!.isEmpty) {
                                                                 html.window
-                                                                    .removeEventListener(
-                                                                        'focus',
+                                                                    .removeEventListener('focus',
                                                                         cancelledeventlistener);
                                                                 setState(() {
-                                                                  isLoading =
-                                                                      false;
-                                                                });
+                                                                  isLoading = false;
+                                                                  setState(() {});
+                                                               });
                                                               }
                                                             });
                                                           }
@@ -1719,7 +1713,7 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                                               .addEventListener(
                                                                   'focus',
                                                                   cancelledeventlistener);
-                                                          setState(() {});
+                                                          // setState(() {});
                                                         },
                                                         child: Container(
                                                             decoration:
