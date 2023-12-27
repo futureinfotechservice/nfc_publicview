@@ -5,13 +5,13 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 // import 'dart:html';
 import 'dart:html' as html;
 import 'package:vcard_maintained/vcard_maintained.dart';
 import 'dart:js' as js;
 import 'package:flutter/foundation.dart' show kIsWeb;
-import'dart:io' show Platform;
-
+import 'dart:io' show Platform;
 
 class multiple_listdata {
   String id;
@@ -296,18 +296,16 @@ class public1 extends State<public> {
                                     color: Color(0xffE9E9E9),
                                     child: Center(
                                       child: Text(
-                                        listdata1[0]
-                                            .cusname
-                                            .toUpperCase()
-                                            .toString(),
+                                        listdata1[0].cusname.toString(),
                                         softWrap: true,
                                         style: TextStyle(
-                                           fontFamily: 'Verdana',
+                                            fontFamily: 'Verdana',
                                             color: Color(0xff007356),
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold),
                                       ),
-                                    ),),
+                                    ),
+                                  ),
                                 ]),
                             SizedBox(
                               height: 2,
@@ -320,14 +318,11 @@ class public1 extends State<public> {
                                     color: Color(0xffE9E9E9),
                                     child: Center(
                                       child: Text(
-                                        listdata1[0]
-                                            .companyname
-                                            .toUpperCase()
-                                            .toString(),
+                                        listdata1[0].companyname.toString(),
                                         style: TextStyle(
                                             fontFamily: 'Verdana',
                                             color: Colors.black,
-                                            fontSize: 16,
+                                            fontSize: 14,
                                             fontWeight: FontWeight.bold),
                                       ),
                                     ),
@@ -346,10 +341,7 @@ class public1 extends State<public> {
                                       color: Color(0xffE9E9E9),
                                       child: Center(
                                         child: Text(
-                                          listdata1[0]
-                                              .jobrole
-                                              .capitalize()
-                                              .toString(),
+                                          listdata1[0].jobrole.toString(),
                                           style: TextStyle(
                                             fontFamily: 'Verdana',
                                             color: Colors.black,
@@ -375,7 +367,7 @@ class public1 extends State<public> {
                                           color: Color(0xffE9E9E9),
                                           child: Center(
                                             child: Text(
-                                              'ABOUT ME :',
+                                              'ABOUT ME ',
                                               style: TextStyle(
                                                   fontFamily: 'Verdana',
                                                   color: Colors.black,
@@ -447,191 +439,236 @@ class public1 extends State<public> {
                                       ),
                                     )
                                   ]),
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(50, 5, 50, 5),
-                              child: Wrap(
-                                //direction: Axis.vertical,
-                                runSpacing: 10.0,
-                                spacing: 20.0,
-                                crossAxisAlignment: WrapCrossAlignment.center,
-                                //alignment: WrapAlignment.center,
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  // (listdata1[0]
-                                  //     .whatsapp
-                                  //     .toString() !=
-                                  //     '0')
-                                  //     ? SizedBox(
-                                  //   width: 30,
-                                  // )
-                                  //     : Text(''),
-                                  if (listdata1[0].whatsapp.toString() != '0')
-                                    Container(
-                                        height: 51,
-                                        width: 50,
-                                        child: Material(
-                                          // needed
-                                          color: Colors.transparent,
-                                          child: InkWell(
-                                            onTap: () async {
-                                              var contact = listdata1[0]
-                                                  .whatsapp
-                                                  .toString();
-                                              var androidUrl =
-                                                  "whatsapp://send?phone=$contact&text=Hi";
-                                              var iosUrl =
-                                                  "https://wa.me/$contact?text=${Uri.parse('Hi, I need some help')}";
-
-                                              js.context
-                                                  .callMethod('open', [iosUrl]);
-                                            }, // needed
-                                            child: Image.asset(
-                                              "assects/whatsapplogo.png",
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                                    child: Wrap(
+                                      //direction: Axis.vertical,
+                                      runSpacing: 10.0,
+                                      spacing: 20.0,
+                                      crossAxisAlignment:
+                                          WrapCrossAlignment.center,
+                                      //alignment: WrapAlignment.center,
+                                      children: <Widget>[
+                                        // (listdata1[0]
+                                        //     .whatsapp
+                                        //     .toString() !=
+                                        //     '0')
+                                        //     ? SizedBox(
+                                        //   width: 30,
+                                        // )
+                                        //     : Text(''),
+                                        if (listdata1[0].whatsapp.toString() !=
+                                            '0')
+                                          Container(
                                               height: 51,
                                               width: 50,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        )),
-                                  if (listdata1[0].facebook.toString() != '')
-                                    Container(
-                                        height: 44,
-                                        width: 50,
-                                        child: Material(
-                                          // needed
-                                          color: Colors.transparent,
-                                          child: InkWell(
-                                            onTap: () async {
-                                              var url = listdata1[0]
-                                                  .facebook
-                                                  .toString();
-                                              js.context
-                                                  .callMethod('open', [url]);
-                                            },
-                                            child: Image.asset(
-                                              "assects/fblogo3.jpg",
+                                              child: Material(
+                                                // needed
+                                                color: Colors.transparent,
+                                                child: InkWell(
+                                                  onTap: () async {
+                                                    var contact = listdata1[0]
+                                                        .whatsapp
+                                                        .toString();
+                                                    var androidUrl =
+                                                        "whatsapp://send?phone=$contact&text=Hi";
+                                                    var iosUrl =
+                                                        "https://wa.me/$contact?text=${Uri.parse('Hi, I need some help')}";
+
+                                                    js.context.callMethod(
+                                                        'open', [iosUrl]);
+                                                  }, // needed
+                                                  child: Image.asset(
+                                                    "assects/whatsapplogo.png",
+                                                    height: 51,
+                                                    width: 50,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              )),
+                                        if (listdata1[0].facebook.toString() !=
+                                            '')
+                                          Container(
                                               height: 44,
                                               width: 50,
-                                              fit: BoxFit.cover,
+                                              child: Material(
+                                                // needed
+                                                color: Colors.transparent,
+                                                child: InkWell(
+                                                  onTap: () async {
+                                                    var url = listdata1[0]
+                                                        .facebook
+                                                        .toString();
+                                                    if (!url
+                                                        .substring(0, 5)
+                                                        .contains('http')) {
+                                                      url = 'http://' + url;
+                                                    }
+                                                    js.context.callMethod(
+                                                        'open', [url]);
+                                                  },
+                                                  child: Image.asset(
+                                                    "assects/fblogo3.jpg",
+                                                    height: 44,
+                                                    width: 50,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              )),
+
+                                        if (listdata1[0].insta.toString() != '')
+                                          Material(
+                                            // needed
+                                            color: Colors.transparent,
+                                            child: InkWell(
+                                              onTap: () async {
+                                                var url = listdata1[0]
+                                                    .insta
+                                                    .toString();
+                                                if (!url
+                                                    .substring(0, 5)
+                                                    .contains('http')) {
+                                                  url = 'http://' + url;
+                                                }
+                                                if (await canLaunch(url)) {
+                                                  await launch(url);
+                                                } else {
+                                                  throw 'Could not launch $url';
+                                                }
+                                              }, // ned
+                                              child: Image.asset(
+                                                "assects/instalogo.png",
+                                                height: 51,
+                                                width: 50,
+                                                fit: BoxFit.cover,
+                                              ),
                                             ),
                                           ),
-                                        )),
 
-                                  if (listdata1[0].insta.toString() != '')
-                                    Material(
-                                      // needed
-                                      color: Colors.transparent,
-                                      child: InkWell(
-                                        onTap: () async {
-                                          var url =
-                                              listdata1[0].insta.toString();
-                                          if (await canLaunch(url)) {
-                                            await launch(url);
-                                          } else {
-                                            throw 'Could not launch $url';
-                                          }
-                                        }, // ned
-                                        child: Image.asset(
-                                          "assects/instalogo.png",
-                                          height: 51,
-                                          width: 50,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
+                                        if (listdata1[0].youtube.toString() !=
+                                            '')
+                                          Material(
+                                            // needed
+                                            color: Colors.transparent,
+                                            child: InkWell(
+                                              onTap: () async {
+                                                var url = listdata1[0]
+                                                    .youtube
+                                                    .toString();
+                                                if (!url
+                                                    .substring(0, 5)
+                                                    .contains('http')) {
+                                                  url = 'http://' + url;
+                                                }
+                                                js.context
+                                                    .callMethod('open', [url]);
+                                              }, // needed
+                                              child: Image.asset(
+                                                "assects/youtubelogo.png",
+                                                height: 51,
+                                                width: 50,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
 
-                                  if (listdata1[0].youtube.toString() != '')
-                                    Material(
-                                      // needed
-                                      color: Colors.transparent,
-                                      child: InkWell(
-                                        onTap: () async {
-                                          var url =
-                                              listdata1[0].youtube.toString();
-                                          js.context.callMethod('open', [url]);
-                                        }, // needed
-                                        child: Image.asset(
-                                          "assects/youtubelogo.png",
-                                          height: 51,
-                                          width: 50,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-
-                                  if (listdata1[0].linkedin.toString() != '')
-                                    Container(
-                                        height: 39,
-                                        width: 50,
-                                        child: Material(
-                                          // needed
-                                          color: Colors.transparent,
-                                          child: InkWell(
-                                            onTap: () async {
-                                              var url = listdata1[0]
-                                                  .linkedin
-                                                  .toString();
-                                              js.context
-                                                  .callMethod('open', [url]);
-                                            },
-                                            child: Image.asset(
-                                              "assects/linkedinlogo.png",
+                                        if (listdata1[0].linkedin.toString() !=
+                                            '')
+                                          Container(
                                               height: 39,
-                                              width: 35,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        )),
+                                              width: 50,
+                                              child: Material(
+                                                // needed
+                                                color: Colors.transparent,
+                                                child: InkWell(
+                                                  onTap: () async {
+                                                    var url = listdata1[0]
+                                                        .linkedin
+                                                        .toString();
+                                                    if (!url
+                                                        .substring(0, 5)
+                                                        .contains('http')) {
+                                                      url = 'http://' + url;
+                                                    }
+                                                    js.context.callMethod(
+                                                        'open', [url]);
+                                                  },
+                                                  child: Image.asset(
+                                                    "assects/linkedinlogo.png",
+                                                    height: 39,
+                                                    width: 35,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              )),
 
-                                  if (listdata1[0].twitter.toString() != '')
-                                    Container(
-                                        height: 41,
-                                        width: 50,
-                                        child: Material(
-                                          // needed
-                                          color: Colors.transparent,
-                                          child: InkWell(
-                                            onTap: () async {
-                                              var url = listdata1[0]
-                                                  .twitter
-                                                  .toString();
-                                              js.context
-                                                  .callMethod('open', [url]);
-                                            }, // needed
-                                            child: Image.asset(
-                                              "assects/twitterlogo.png",
+                                        if (listdata1[0].twitter.toString() !=
+                                            '')
+                                          Container(
                                               height: 41,
                                               width: 50,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        )),
-                                  if (listdata1[0].telegram.toString() != '')
-                                    Container(
-                                        height: 50,
-                                        width: 50,
-                                        child: Material(
-                                          // needed
-                                          color: Colors.transparent,
-                                          child: InkWell(
-                                            onTap: () async {
-                                              var url = listdata1[0]
-                                                  .telegram
-                                                  .toString();
-                                              js.context
-                                                  .callMethod('open', [url]);
-                                            }, // ned
-                                            child: Image.asset(
-                                              "assects/telegramlogo.png",
-                                              height: 45,
+                                              child: Material(
+                                                // needed
+                                                color: Colors.transparent,
+                                                child: InkWell(
+                                                  onTap: () async {
+                                                    var url = listdata1[0]
+                                                        .twitter
+                                                        .toString();
+                                                    if (!url
+                                                        .substring(0, 5)
+                                                        .contains('http')) {
+                                                      url = 'http://' + url;
+                                                    }
+                                                    js.context.callMethod(
+                                                        'open', [url]);
+                                                  }, // needed
+                                                  child: Image.asset(
+                                                    "assects/twitterlogo.png",
+                                                    height: 41,
+                                                    width: 50,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              )),
+                                        if (listdata1[0].telegram.toString() !=
+                                            '')
+                                          Container(
+                                              height: 50,
                                               width: 50,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ))
-                                  //: Text(''),
-                                ],
-                              ),
-                            ),
+                                              child: Material(
+                                                // needed
+                                                color: Colors.transparent,
+                                                child: InkWell(
+                                                  onTap: () async {
+                                                    var url = listdata1[0]
+                                                        .telegram
+                                                        .toString();
+                                                    if (!url
+                                                        .substring(0, 5)
+                                                        .contains('http')) {
+                                                      url = 'http://' + url;
+                                                    }
+                                                    js.context.callMethod(
+                                                        'open', [url]);
+                                                  }, // ned
+                                                  child: Image.asset(
+                                                    "assects/telegramlogo.png",
+                                                    height: 45,
+                                                    width: 50,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              ))
+                                        //: Text(''),
+                                      ],
+                                    ),
+                                  )
+                                ]),
                             if (listdata1[0].whatsapp.toString() != '0' ||
                                 listdata1[0].facebook.toString() != '' ||
                                 listdata1[0].insta.toString() != '' ||
@@ -639,9 +676,9 @@ class public1 extends State<public> {
                                 listdata1[0].linkedin.toString() != '' ||
                                 listdata1[0].twitter.toString() != '' ||
                                 listdata1[0].telegram.toString() != '')
-                            SizedBox(
-                              height: 10,
-                            ),
+                              SizedBox(
+                                height: 10,
+                              ),
                             if (listdata1[0].mobile.toString() != '0' ||
                                 listdata1[0].phone.toString() != '0' ||
                                 listdata1[0].email.toString() != '' ||
@@ -672,25 +709,15 @@ class public1 extends State<public> {
                                         ),
                                       ])),
                             if (listdata1[0].mobile.toString() != '0' ||
-                                listdata1[0].phone.toString() !=
-                                    '0' ||
-                                listdata1[0].email.toString() !=
-                                    '' ||
-                                listdata1[0].email1.toString() !=
-                                    '' ||
-                                listdata1[0].website.toString() !=
-                                    '' ||
-                                listdata1[0]
-                                    .address
-                                    .toString() !=
-                                    '' ||
-                                listdata1[0]
-                                    .office_address2
-                                    .toString() !=
-                                    '')
-                            SizedBox(
-                              width: 15,
-                            ),
+                                listdata1[0].phone.toString() != '0' ||
+                                listdata1[0].email.toString() != '' ||
+                                listdata1[0].email1.toString() != '' ||
+                                listdata1[0].website.toString() != '' ||
+                                listdata1[0].address.toString() != '' ||
+                                listdata1[0].office_address2.toString() != '')
+                              SizedBox(
+                                width: 15,
+                              ),
                             if (listdata1[0].phone.toString() != '0' ||
                                 listdata1[0].mobile.toString() != '0')
                               Padding(
@@ -721,10 +748,10 @@ class public1 extends State<public> {
                                                         padding:
                                                             EdgeInsets.fromLTRB(
                                                                 20, 5, 0, 0),
-                                                        child: Text(
-                                                            '  Call at :',
+                                                        child: Text('  Call at ',
                                                             style: TextStyle(
-                                                              fontFamily: 'Verdana',
+                                                                fontFamily:
+                                                                    'Verdana',
                                                                 color: Colors
                                                                     .yellow,
                                                                 fontSize: MediaQuery.of(
@@ -734,8 +761,7 @@ class public1 extends State<public> {
                                                                     .04,
                                                                 fontWeight:
                                                                     FontWeight
-                                                                        .bold
-                                                            ))),
+                                                                        .bold))),
                                                     if (listdata1[0]
                                                             .phone
                                                             .toString() !=
@@ -767,14 +793,15 @@ class public1 extends State<public> {
                                                                     listdata1[0]
                                                                         .phone
                                                                         .toString(),
-                                                                    style: TextStyle(
-                                                                      fontFamily: 'Verdana',
-                                                                        color: Colors
-                                                                            .white,
-                                                                        fontSize:
-                                                                            MediaQuery.of(context).size.width *
-                                                                                .04,
-
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontFamily:
+                                                                          'Verdana',
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontSize:
+                                                                          MediaQuery.of(context).size.width *
+                                                                              .04,
                                                                     ))),
                                                           )),
                                                     if (listdata1[0]
@@ -808,15 +835,17 @@ class public1 extends State<public> {
                                                                     listdata1[0]
                                                                         .mobile
                                                                         .toString(),
-                                                                    style: TextStyle(
-                                                                      fontFamily: 'Verdana',
-                                                                        color: Colors
-                                                                            .white,
-                                                                        fontSize:
-                                                                            MediaQuery.of(context).size.width *
-                                                                                .04,
-                                                                        // fontWeight:
-                                                                        //     FontWeight.bold
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontFamily:
+                                                                          'Verdana',
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontSize:
+                                                                          MediaQuery.of(context).size.width *
+                                                                              .04,
+                                                                      // fontWeight:
+                                                                      //     FontWeight.bold
                                                                     ))),
                                                           )),
                                                     SizedBox(height: 10),
@@ -889,9 +918,10 @@ class public1 extends State<public> {
                                                       padding:
                                                           EdgeInsets.fromLTRB(
                                                               20, 5, 0, 0),
-                                                      child: Text('  Mail at :',
+                                                      child: Text('  Mail at ',
                                                           style: TextStyle(
-                                                            fontFamily: 'Verdana',
+                                                              fontFamily:
+                                                                  'Verdana',
                                                               color:
                                                                   Colors.yellow,
                                                               fontSize: MediaQuery.of(
@@ -901,8 +931,7 @@ class public1 extends State<public> {
                                                                   .04,
                                                               fontWeight:
                                                                   FontWeight
-                                                                      .bold
-                                                          ))),
+                                                                      .bold))),
                                                   if (listdata1[0]
                                                           .email
                                                           .toString() !=
@@ -934,16 +963,19 @@ class public1 extends State<public> {
                                                                   listdata1[0]
                                                                       .email
                                                                       .toString(),
-                                                                  style: TextStyle(
-                                                                    fontFamily: 'Verdana',
-                                                                      color: Colors
-                                                                          .white,
-                                                                      fontSize:
-                                                                          MediaQuery.of(context).size.width *
-                                                                              .04,
-                                                                      // fontWeight:
-                                                                      //     FontWeight
-                                                                      //         .bold
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontFamily:
+                                                                        'Verdana',
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontSize: MediaQuery.of(context)
+                                                                            .size
+                                                                            .width *
+                                                                        .04,
+                                                                    // fontWeight:
+                                                                    //     FontWeight
+                                                                    //         .bold
                                                                   ))),
                                                         )),
                                                   if (listdata1[0]
@@ -978,15 +1010,17 @@ class public1 extends State<public> {
                                                                     listdata1[0]
                                                                         .email1
                                                                         .toString(),
-                                                                    style: TextStyle(
-                                                                      fontFamily: 'Verdana',
-                                                                        color: Colors
-                                                                            .white,
-                                                                        fontSize:
-                                                                            MediaQuery.of(context).size.width *
-                                                                                .04,
-                                                                        // fontWeight:
-                                                                        //     FontWeight.bold
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontFamily:
+                                                                          'Verdana',
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontSize:
+                                                                          MediaQuery.of(context).size.width *
+                                                                              .04,
+                                                                      // fontWeight:
+                                                                      //     FontWeight.bold
                                                                     ))))),
                                                   SizedBox(height: 10),
                                                 ]),
@@ -999,15 +1033,15 @@ class public1 extends State<public> {
                                         ),
                                       ]),
                                   FractionalTranslation(
-                                      translation:(listdata1[0].email1.toString() ==
-                                          '' ||
-                                          listdata1[0]
-                                              .email
-                                              .toString() ==
-                                              '')
+                                      translation: (listdata1[0]
+                                                      .email1
+                                                      .toString() ==
+                                                  '' ||
+                                              listdata1[0].email.toString() ==
+                                                  '')
                                           ? Offset(0.5, 0.2)
                                           : Offset(0.5, 0.5),
-                                       //Offset(0.5, 0.5),
+                                      //Offset(0.5, 0.5),
                                       child: Align(
                                         // alignment: Alignment.,
                                         child: SizedBox(
@@ -1071,9 +1105,10 @@ class public1 extends State<public> {
                                                       padding:
                                                           EdgeInsets.fromLTRB(
                                                               20, 5, 0, 0),
-                                                      child: Text('  Website :',
+                                                      child: Text('  Website ',
                                                           style: TextStyle(
-                                                            fontFamily: 'Verdana',
+                                                              fontFamily:
+                                                                  'Verdana',
                                                               color:
                                                                   Colors.yellow,
                                                               fontSize: MediaQuery.of(
@@ -1083,8 +1118,7 @@ class public1 extends State<public> {
                                                                   .04,
                                                               fontWeight:
                                                                   FontWeight
-                                                                      .bold
-                                                          ))),
+                                                                      .bold))),
                                                   if (listdata1[0]
                                                           .website
                                                           .toString() !=
@@ -1103,6 +1137,15 @@ class public1 extends State<public> {
                                                                     listdata1[0]
                                                                         .website
                                                                         .toString();
+                                                                if (!url
+                                                                    .substring(
+                                                                        0, 5)
+                                                                    .contains(
+                                                                        'http')) {
+                                                                  url =
+                                                                      'http://' +
+                                                                          url;
+                                                                }
                                                                 js.context
                                                                     .callMethod(
                                                                         'open',
@@ -1112,16 +1155,19 @@ class public1 extends State<public> {
                                                                   listdata1[0]
                                                                       .website
                                                                       .toString(),
-                                                                  style: TextStyle(
-                                                                    fontFamily: 'Verdana',
-                                                                      color: Colors
-                                                                          .white,
-                                                                      fontSize:
-                                                                          MediaQuery.of(context).size.width *
-                                                                              .04,
-                                                                      // fontWeight:
-                                                                      //     FontWeight
-                                                                      //         .bold
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontFamily:
+                                                                        'Verdana',
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontSize: MediaQuery.of(context)
+                                                                            .size
+                                                                            .width *
+                                                                        .04,
+                                                                    // fontWeight:
+                                                                    //     FontWeight
+                                                                    //         .bold
                                                                   ))),
                                                         )),
                                                   SizedBox(height: 10),
@@ -1205,9 +1251,10 @@ class public1 extends State<public> {
                                                             EdgeInsets.fromLTRB(
                                                                 20, 5, 0, 0),
                                                         child: Text(
-                                                            '  Address1 :',
+                                                            '  Address1 ',
                                                             style: TextStyle(
-                                                              fontFamily: 'Verdana',
+                                                                fontFamily:
+                                                                    'Verdana',
                                                                 color: Colors
                                                                     .yellow,
                                                                 fontSize: MediaQuery.of(
@@ -1217,8 +1264,7 @@ class public1 extends State<public> {
                                                                     .04,
                                                                 fontWeight:
                                                                     FontWeight
-                                                                        .bold
-                                                            ))),
+                                                                        .bold))),
                                                     if (listdata1[0]
                                                             .address
                                                             .toString() !=
@@ -1238,6 +1284,15 @@ class public1 extends State<public> {
                                                                           0]
                                                                       .google_map_link
                                                                       .toString();
+                                                                  if (!url
+                                                                      .substring(
+                                                                          0, 5)
+                                                                      .contains(
+                                                                          'http')) {
+                                                                    url =
+                                                                        'http://' +
+                                                                            url;
+                                                                  }
                                                                   js.context
                                                                       .callMethod(
                                                                           'open',
@@ -1249,15 +1304,17 @@ class public1 extends State<public> {
                                                                     listdata1[0]
                                                                         .address
                                                                         .toString(),
-                                                                    style: TextStyle(
-                                                                      fontFamily: 'Verdana',
-                                                                        color: Colors
-                                                                            .white,
-                                                                        fontSize:
-                                                                            MediaQuery.of(context).size.width *
-                                                                                .04,
-                                                                        // fontWeight:
-                                                                        //     FontWeight.bold
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontFamily:
+                                                                          'Verdana',
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontSize:
+                                                                          MediaQuery.of(context).size.width *
+                                                                              .04,
+                                                                      // fontWeight:
+                                                                      //     FontWeight.bold
                                                                     ))),
                                                           )),
                                                     SizedBox(
@@ -1334,9 +1391,10 @@ class public1 extends State<public> {
                                                             EdgeInsets.fromLTRB(
                                                                 20, 5, 0, 0),
                                                         child: Text(
-                                                            '  Address2 :',
+                                                            '  Address2 ',
                                                             style: TextStyle(
-                                                              fontFamily: 'Verdana',
+                                                                fontFamily:
+                                                                    'Verdana',
                                                                 color: Colors
                                                                     .yellow,
                                                                 fontSize: MediaQuery.of(
@@ -1346,8 +1404,7 @@ class public1 extends State<public> {
                                                                     .04,
                                                                 fontWeight:
                                                                     FontWeight
-                                                                        .bold
-                                                            ))),
+                                                                        .bold))),
                                                     if (listdata1[0]
                                                             .office_address2
                                                             .toString() !=
@@ -1367,6 +1424,15 @@ class public1 extends State<public> {
                                                                           0]
                                                                       .google_map_link2
                                                                       .toString();
+                                                                  if (!url
+                                                                      .substring(
+                                                                          0, 5)
+                                                                      .contains(
+                                                                          'http')) {
+                                                                    url =
+                                                                        'http://' +
+                                                                            url;
+                                                                  }
                                                                   js.context
                                                                       .callMethod(
                                                                           'open',
@@ -1378,15 +1444,17 @@ class public1 extends State<public> {
                                                                     listdata1[0]
                                                                         .office_address2
                                                                         .toString(),
-                                                                    style: TextStyle(
-                                                                      fontFamily: 'Verdana',
-                                                                        color: Colors
-                                                                            .white,
-                                                                        fontSize:
-                                                                            MediaQuery.of(context).size.width *
-                                                                                .04,
-                                                                        // fontWeight:
-                                                                        //     FontWeight.bold
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontFamily:
+                                                                          'Verdana',
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontSize:
+                                                                          MediaQuery.of(context).size.width *
+                                                                              .04,
+                                                                      // fontWeight:
+                                                                      //     FontWeight.bold
                                                                     ))),
                                                           )),
                                                     SizedBox(
@@ -1505,7 +1573,8 @@ class public1 extends State<public> {
                                                       child: Text(
                                                         'GALLERY',
                                                         style: TextStyle(
-                                                            fontFamily: 'Verdana',
+                                                            fontFamily:
+                                                                'Verdana',
                                                             color: Colors.white,
                                                             fontSize: 16,
                                                             fontWeight:
@@ -1603,8 +1672,7 @@ class public1 extends State<public> {
                                   width: MediaQuery.of(context).size.width,
                                   color: Color(0xff007356),
                                   child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.end,
+                                      mainAxisAlignment: MainAxisAlignment.end,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: <Widget>[
@@ -1630,7 +1698,9 @@ class public1 extends State<public> {
                                                 ),
                                               ),
                                             )),
-                                        SizedBox(width: 5,),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
                                         Container(
                                             height: MediaQuery.of(context)
                                                     .size
@@ -1662,6 +1732,9 @@ class public1 extends State<public> {
                                                       var url = listdata1[0]
                                                           .pdf
                                                           .toString();
+                                                      // if( !url.substring(0, 5).contains('http') ) {
+                                                      //   url = 'http://' + url;
+                                                      // }
                                                       js.context.callMethod(
                                                           'open', [url]);
                                                     },
@@ -1684,18 +1757,18 @@ class public1 extends State<public> {
                               height: 10,
                             ),
                             // Spacer(),
-                           Align(
-                                  alignment: Alignment.bottomCenter,
-                                  child: Text(
-                                    "Powered by FUTURE INFOTECH",
-                                    style: TextStyle(
-                                        fontFamily: 'Verdana',
-                                        color: Colors.black,
-                                        fontSize: 15,
-                                        //fontWeight: FontWeight.bold
-                                    ),
-                                  ),
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Text(
+                                "Powered by FUTURE INFOTECH",
+                                style: TextStyle(
+                                  fontFamily: 'Verdana',
+                                  color: Colors.black,
+                                  fontSize: 15,
+                                  //fontWeight: FontWeight.bold
                                 ),
+                              ),
+                            ),
                           ],
                         ),
                         Positioned(
@@ -1750,8 +1823,9 @@ EMAIL;INTERNET;PREF:${listdata1[0].email.toString() ?? ''}
 URL;WORK;PREF:${listdata1[0].website.toString() ?? ''}
 END:VCARD''';
 
-
-                                  final encodedContent = (kIsWeb)?utf8.encode(vCardContent):utf8.encode(vCardContentIOS);
+                                  final encodedContent = (kIsWeb)
+                                      ? utf8.encode(vCardContent)
+                                      : utf8.encode(vCardContentIOS);
 
                                   final blob =
                                       html.Blob([encodedContent], 'text/vcard');

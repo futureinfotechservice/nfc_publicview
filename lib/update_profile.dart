@@ -16,6 +16,7 @@ import 'main.dart';
 import 'package:http/http.dart' as http;
 import 'dart:html' as html;
 import 'dart:ui' as ui;
+import 'package:path/path.dart' as p;
 
 class listdata {
   String profile_image;
@@ -223,6 +224,7 @@ class admin_update_profile2 extends State<admin_update_profile> {
   Uint8List? _fileBytes4;
   Uint8List? _fileBytes5;
   String? _fileName4;
+  String? _filetype4;
   List<int> updateBytes4 = [];
   List<Uint8List> _fileBytesList5 = [];
   String? _fileName5;
@@ -523,6 +525,7 @@ class admin_update_profile2 extends State<admin_update_profile> {
       'filename2': _fileName2.toString(),
       'upi_payment_scanner': base64Encode(updateBytes2),
       'filename4': _fileName4.toString(),
+      'filetype4': _filetype4.toString(),
       'brochure': base64Encode(updateBytes4),
       'facebook_details': facebookdetailscontroller.text.toString(),
       'instagram_details': instagramdetailscontroller.text.toString(),
@@ -2533,10 +2536,10 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                                                 if (bytes !=
                                                                     null) {
                                                                   _fileName4 =
-                                                                      filename
-                                                                          ?.name;
-                                                                  print(_fileName4
-                                                                      .toString());
+                                                                      filename?.name;
+                                                                  print(_fileName4.toString());
+                                                                  _filetype4 = p.extension(file.name);
+                                                                  print(_filetype4.toString());
                                                                   _fileBytes4 =
                                                                       bytes;
                                                                   updateBytes4 =
