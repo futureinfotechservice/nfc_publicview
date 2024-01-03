@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:nfccard/zoomimage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -62,6 +63,9 @@ class listdata2 {
   String pdf;
   String office_address2;
   String google_map_link2;
+  String dialcode_contactnumber;
+  String dialcode_contactnumber2;
+  String dialcode_whatsappnumber;
 
   listdata2({
     required this.id,
@@ -92,6 +96,9 @@ class listdata2 {
     required this.pdf,
     required this.office_address2,
     required this.google_map_link2,
+    required this.dialcode_contactnumber,
+    required this.dialcode_contactnumber2,
+    required this.dialcode_whatsappnumber,
   });
 
   factory listdata2.fromJson(Map<String, dynamic> json) {
@@ -124,6 +131,9 @@ class listdata2 {
       pdf: json['pdf'],
       office_address2: json['office_address2'],
       google_map_link2: json['google_map_link2'],
+      dialcode_contactnumber: json['dialcode_contactnumber'],
+      dialcode_contactnumber2: json['dialcode_contactnumber2'],
+      dialcode_whatsappnumber: json['dialcode_whatsappnumber'],
     );
   }
 }
@@ -183,7 +193,7 @@ class public1 extends State<public> {
     final companyid = prefs.getString('companyid') ?? '';
     final user_id = prefs.getString('user_id') ?? '';
     var url =
-        Uri.parse('https://nfc.futureinfotechservices.in/profile_list2.php');
+        Uri.parse('https://nfc.futureinfotechservices.in/profile_list3.php');
     var data = {
       'companyid': '0',
       'user_id': id.toString(),
@@ -226,6 +236,9 @@ class public1 extends State<public> {
         pdf: api['pdf'],
         office_address2: api['office_address2'],
         google_map_link2: api['google_map_link2'],
+        dialcode_contactnumber: api['dialcode_contactnumber'],
+        dialcode_contactnumber2: api['dialcode_contactnumber2'],
+        dialcode_whatsappnumber: api['dialcode_whatsappnumber'],
       );
       listdata1.add(ab);
     });
@@ -234,6 +247,8 @@ class public1 extends State<public> {
     print('screenheight' + MediaQuery.of(context).size.height.toString());
     print('hisdfsidh' + listdata1[0].profileimg.toString());
     print('link' + listdata1[0].google_map_link.toString());
+    print('address' + listdata1[0].address.toString());
+    print('office_address2' + listdata1[0].office_address2.toString());
     return listdata1;
   }
 
@@ -260,31 +275,43 @@ class public1 extends State<public> {
                           Stack(alignment: Alignment.center, children: <Widget>[
                         Column(
                           children: <Widget>[
-                            Container(
-                              height: 200.0,
-                              width: MediaQuery.of(context).size.width,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: NetworkImage(
-                                        listdata1[0].bannerimage.toString()),
-                                    fit: BoxFit.fill),
-                                gradient: LinearGradient(
-                                  begin: FractionalOffset.topCenter,
-                                  end: FractionalOffset.bottomCenter,
-                                  colors: [
-                                    Color(0xff007356).withOpacity(0.8),
-                                    Color(0xffE9E9E9).withOpacity(0.0),
-                                  ],
-                                ),
-                                borderRadius: new BorderRadius.vertical(
-                                    bottom: new Radius.elliptical(
-                                        MediaQuery.of(context).size.width,
-                                        150.0)
-                                    // bottomRight: Radius.circular(80),
-                                    // bottomLeft: Radius.circular(80),
+                            InkWell(
+                                onTap: () async {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => zoomimage(
+                                            listdata1[0]
+                                                .bannerimage
+                                                .toString()),
+                                      ));
+                                }, // needed
+                                child: Container(
+                                  height: 200.0,
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: NetworkImage(listdata1[0]
+                                            .bannerimage
+                                            .toString()),
+                                        fit: BoxFit.fill),
+                                    gradient: LinearGradient(
+                                      begin: FractionalOffset.topCenter,
+                                      end: FractionalOffset.bottomCenter,
+                                      colors: [
+                                        Color(0xff007356).withOpacity(0.8),
+                                        Color(0xffE9E9E9).withOpacity(0.0),
+                                      ],
                                     ),
-                              ),
-                            ),
+                                    borderRadius: new BorderRadius.vertical(
+                                        bottom: new Radius.elliptical(
+                                            MediaQuery.of(context).size.width,
+                                            150.0)
+                                        // bottomRight: Radius.circular(80),
+                                        // bottomLeft: Radius.circular(80),
+                                        ),
+                                  ),
+                                )),
                             SizedBox(
                               height: 80,
                             ),
@@ -386,25 +413,31 @@ class public1 extends State<public> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
-                                        Container(
-                                          color: Color(0xffE9E9E9),
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              .9,
-                                          child: Text(
-                                            listdata1[0]
-                                                .aboutme
-                                                .capitalize()
-                                                .toString(),
-                                            maxLines: null,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              fontFamily: 'Verdana',
-                                              color: Colors.black,
-                                              fontSize: 15,
-                                            ),
-                                          ),
+                                        // Container(
+                                        //   color: Color(0xffE9E9E9),
+                                        //   width: MediaQuery.of(context)
+                                        //           .size
+                                        //           .width *
+                                        //       .9,
+                                        //   height: MediaQuery.of(context)
+                                        //       .size
+                                        //       .height *
+                                        //       .9,
+                                        //   child:
+                                        Flexible(
+                                          child: FittedBox(
+                                              fit: BoxFit.scaleDown,
+                                              child: Text(
+                                                listdata1[0].aboutme.toString(),
+                                                maxLines: 10,
+                                                // softWrap: true,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  fontFamily: 'Verdana',
+                                                  color: Colors.black,
+                                                  fontSize: 15,
+                                                ),
+                                              )),
                                         ),
                                       ])),
                             if (listdata1[0].aboutme.toString() != '')
@@ -443,8 +476,9 @@ class public1 extends State<public> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  Padding(
-                                    padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                                  Flexible(
+                                      child: Padding(
+                                    padding: EdgeInsets.fromLTRB(50, 5, 50, 5),
                                     child: Wrap(
                                       //direction: Axis.vertical,
                                       runSpacing: 10.0,
@@ -477,7 +511,7 @@ class public1 extends State<public> {
                                                     var androidUrl =
                                                         "whatsapp://send?phone=$contact&text=Hi";
                                                     var iosUrl =
-                                                        "https://wa.me/$contact?text=${Uri.parse('Hi, I need some help')}";
+                                                        "https://wa.me/$contact"; //?text=${Uri.parse('Hi, I need some help')}";
 
                                                     js.context.callMethod(
                                                         'open', [iosUrl]);
@@ -667,7 +701,7 @@ class public1 extends State<public> {
                                         //: Text(''),
                                       ],
                                     ),
-                                  )
+                                  ))
                                 ]),
                             if (listdata1[0].whatsapp.toString() != '0' ||
                                 listdata1[0].facebook.toString() != '' ||
@@ -791,8 +825,11 @@ class public1 extends State<public> {
                                                                 },
                                                                 child: Text(
                                                                     listdata1[0]
-                                                                        .phone
-                                                                        .toString(),
+                                                                            .dialcode_contactnumber
+                                                                            .toString() +
+                                                                        listdata1[0]
+                                                                            .phone
+                                                                            .toString(),
                                                                     style:
                                                                         TextStyle(
                                                                       fontFamily:
@@ -833,8 +870,11 @@ class public1 extends State<public> {
                                                                 },
                                                                 child: Text(
                                                                     listdata1[0]
-                                                                        .mobile
-                                                                        .toString(),
+                                                                            .dialcode_contactnumber2
+                                                                            .toString() +
+                                                                        listdata1[0]
+                                                                            .mobile
+                                                                            .toString(),
                                                                     style:
                                                                         TextStyle(
                                                                       fontFamily:
@@ -1620,13 +1660,26 @@ class public1 extends State<public> {
                                                       direction:
                                                           Axis.horizontal,
                                                       children: [
-                                                        Image.network(
-                                                          multiplelist[index]
-                                                              .image
-                                                              .toString(),
-                                                          width: 150,
-                                                          height: 150,
-                                                        ),
+                                                        InkWell(
+                                                          onTap: () async {
+                                                            Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                  builder: (context) =>
+                                                                      zoomimage(multiplelist[
+                                                                              index]
+                                                                          .image
+                                                                          .toString()),
+                                                                ));
+                                                          }, // needed
+                                                          child: Image.network(
+                                                            multiplelist[index]
+                                                                .image
+                                                                .toString(),
+                                                            width: 150,
+                                                            height: 150,
+                                                          ),
+                                                        )
                                                       ],
                                                     ));
                                                   },
@@ -1758,29 +1811,44 @@ class public1 extends State<public> {
                             ),
                             // Spacer(),
                             Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Text(
-                                "Powered by FUTURE INFOTECH",
-                                style: TextStyle(
-                                  fontFamily: 'Verdana',
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                  //fontWeight: FontWeight.bold
-                                ),
-                              ),
-                            ),
+                                alignment: Alignment.bottomCenter,
+                                child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text(
+                                        "Powered by ",
+                                        style: TextStyle(
+                                          fontFamily: 'Verdana',
+                                          color: Colors.black,
+                                          fontSize: 15,
+                                          //fontWeight: FontWeight.bold
+                                        ),
+                                      ),
+                                      Image.asset('assects/etouch_cards.jpg',
+                                          width: 140, height: 80),
+                                    ])),
                           ],
                         ),
                         Positioned(
                           top: 130.0,
-                          child: CircleAvatar(
-                            radius: 70.0,
-                            backgroundColor: Color(0xffFEBE16),
-                            backgroundImage: NetworkImage(
-                              listdata1[0].profileimg.toString(),
+                          child: InkWell(
+                            onTap: () async {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => zoomimage(
+                                        listdata1[0].profileimg.toString()),
+                                  ));
+                            }, // needed
+                            child: CircleAvatar(
+                              radius: 70.0,
+                              backgroundColor: Color(0xffFEBE16),
+                              backgroundImage: NetworkImage(
+                                listdata1[0].profileimg.toString(),
+                              ),
                             ),
                           ),
-                        ),
+                        )
                       ]),
                     )
                   : CircularProgressIndicator();

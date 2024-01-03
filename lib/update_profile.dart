@@ -4,7 +4,7 @@ import 'dart:html';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_native_image/flutter_native_image.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -257,6 +257,10 @@ class admin_update_profile2 extends State<admin_update_profile> {
   TextEditingController officeaddress2controller = TextEditingController();
   TextEditingController googlemaplink1controller = TextEditingController();
 
+  String dialcode_contactnumber = '91';
+  String dialcode_contactnumber2 = '91';
+  String dialcode_whatsappnumber = '91';
+
   String country_contactnumber = 'IN';
   String country_contactnumber2 = 'IN';
   String country_whatsappnumber2 = 'IN';
@@ -496,7 +500,7 @@ class admin_update_profile2 extends State<admin_update_profile> {
     final company_id = prefs.getString('company_id') ?? '';
 
     var url = Uri.parse(
-        'https://nfc.futureinfotechservices.in/updateprofile_insert2.php');
+        'https://nfc.futureinfotechservices.in/updateprofile_insert3.php');
     var data = {
       // 'user_id': userid.toString(),
       'user_id': (id.toString() == "") ? '0' : id.toString(),
@@ -545,6 +549,15 @@ class admin_update_profile2 extends State<admin_update_profile> {
       'country_whatsappnumber2': (country_whatsappnumber2.toString() == '')
           ? 'IN'
           : country_whatsappnumber2.toString(),
+      'dialcode_contactnumber': (dialcode_contactnumber.toString() == '')
+          ? '+91'
+          : '+$dialcode_contactnumber',
+      'dialcode_contactnumber2': (dialcode_contactnumber2.toString() == '')
+          ? '+91'
+          : '+$dialcode_contactnumber2',
+      'dialcode_whatsappnumber': (dialcode_whatsappnumber.toString() == '')
+          ? '+91'
+          : '+$dialcode_whatsappnumber',
       'updateprofile': updateprofile.toString(),
       'updatebanner': updatebanner.toString(),
       'updateupi': updateupi.toString(),
@@ -1082,6 +1095,7 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                                                 country.code);
                                                         country_contactnumber =
                                                             country.code;
+                                                        dialcode_contactnumber = country.dialCode;
                                                       },
 
                                                       // onChanged: (phone) {
@@ -1151,6 +1165,7 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                                                 country.code);
                                                         country_contactnumber2 =
                                                             country.code;
+                                                        dialcode_contactnumber2 = country.dialCode;
                                                       },
                                                     );
                                                   }),
@@ -1644,6 +1659,7 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                                               FileUploadInputElement();
                                                           input.accept =
                                                               'image/*';
+
                                                           input.click();
                                                           setState(() {
                                                             isLoading = true;
@@ -1667,29 +1683,25 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                                                   .listen(
                                                                       (e) async {
 
-                                                                final bytes = Base64Decoder()
+                                                                final bytes =Base64Decoder()
                                                                     .convert(reader.result.toString()
                                                                         .split(
                                                                             ",")
                                                                         .last);
 
-                                                                setState(()    {
+                                                                setState(() {
                                                                   if (bytes != null) {
                                                                     _fileName = filename?.name;
-                                                                    print(_fileName);
-
-                                                                   fileBytes = bytes;
-                                                                   updateBytes = bytes;
-
-
+                                                                    print(filename?.name);
+                                                                    fileBytes = bytes;
+                                                                    updateBytes = bytes;
                                                                     if (_fileName != null) {
                                                                       updateprofile = '1';
                                                                     }
                                                                   }
                                                                 });
                                                               });
-                                                              reader
-                                                                  .readAsDataUrl(file);
+                                                              reader.readAsDataUrl(file);
                                                             }
                                                             setState(() {
                                                               isLoading = false;
@@ -1815,6 +1827,7 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                                               FileUploadInputElement();
                                                           input.accept =
                                                               'image/*';
+
                                                           input.click();
                                                           setState(() {
                                                             isLoading1 = true;
@@ -2329,6 +2342,7 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                                                 country.code);
                                                         country_whatsappnumber2 =
                                                             country.code;
+                                                        dialcode_whatsappnumber = country.dialCode;
                                                       },
                                                     );
                                                   }),
