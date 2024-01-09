@@ -424,21 +424,25 @@ class public1 extends State<public> {
                                         //       .height *
                                         //       .9,
                                         //   child:
-                                        Flexible(
-                                          child: FittedBox(
-                                              fit: BoxFit.scaleDown,
-                                              child: Text(
-                                                listdata1[0].aboutme.toString(),
-                                                maxLines: 10,
-                                                // softWrap: true,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                  fontFamily: 'Verdana',
-                                                  color: Colors.black,
-                                                  fontSize: 15,
-                                                ),
-                                              )),
-                                        ),
+                                        // Flexible(
+                                        //   child: FittedBox(
+                                        //       fit: BoxFit.scaleDown,
+                                        //       child:
+                                        Expanded(
+                                            child: Text(
+                                          listdata1[0].aboutme.toString(),
+                                          // maxLines: 10,
+                                          // maxLines: null,
+                                          maxLines: 200,
+                                          softWrap: true,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            fontFamily: 'Verdana',
+                                            color: Colors.black,
+                                            fontSize: 15,
+                                          ),
+                                        )),
+                                        // ),
                                       ])),
                             if (listdata1[0].aboutme.toString() != '')
                               SizedBox(
