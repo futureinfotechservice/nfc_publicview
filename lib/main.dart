@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+// import 'package:Etouchcards/update_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:nfccard/update_profile.dart';
 import 'dpscreen2.dart';
@@ -66,7 +67,8 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+
+      title: 'Etouch Cards',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

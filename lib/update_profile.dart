@@ -283,7 +283,6 @@ class admin_update_profile2 extends State<admin_update_profile> {
   String profile_image = '';
 
 
-
   Future<List<listdata>> downloadJSON(context) async {
     reportlist.clear();
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -293,7 +292,7 @@ class admin_update_profile2 extends State<admin_update_profile> {
     // print(userid.toString());
     // print(company_id.toString());
     var url =
-        Uri.parse('https://nfc.futureinfotechservices.in/profile_image.php');
+        Uri.parse('https://nfc.futureinfotechservices.in/profile_image1.php');
 
     var data = {
       // 'userid': userid.toString(),
@@ -2038,19 +2037,12 @@ class admin_update_profile2 extends State<admin_update_profile> {
                                                                 setState(() {
                                                                   if (bytes !=
                                                                       null) {
-                                                                    _fileName2 =
-                                                                        filename
-                                                                            ?.name;
-                                                                    print(_fileName2
-                                                                        .toString());
-                                                                    fileBytes2 =
-                                                                        bytes;
-                                                                    updateBytes2 =
-                                                                        bytes;
-                                                                    if (_fileName2 !=
-                                                                        null) {
-                                                                      updateupi =
-                                                                          '1';
+                                                                    _fileName2 = filename?.name;
+                                                                    print(_fileName2.toString());
+                                                                    fileBytes2 = bytes;
+                                                                    updateBytes2 = bytes;
+                                                                    if (_fileName2 != null) {
+                                                                      updateupi = '1';
                                                                     }
                                                                   }
                                                                 });

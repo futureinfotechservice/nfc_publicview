@@ -1,4 +1,5 @@
 import 'dart:convert';
+// import 'package:Etouchcards/zoomimage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:nfccard/zoomimage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 // import 'dart:html';
 import 'dart:html' as html;
@@ -66,6 +68,8 @@ class listdata2 {
   String dialcode_contactnumber;
   String dialcode_contactnumber2;
   String dialcode_whatsappnumber;
+  String nature_of_business;
+  String generated_id;
 
   listdata2({
     required this.id,
@@ -99,6 +103,8 @@ class listdata2 {
     required this.dialcode_contactnumber,
     required this.dialcode_contactnumber2,
     required this.dialcode_whatsappnumber,
+    required this.nature_of_business,
+    required this.generated_id,
   });
 
   factory listdata2.fromJson(Map<String, dynamic> json) {
@@ -134,6 +140,8 @@ class listdata2 {
       dialcode_contactnumber: json['dialcode_contactnumber'],
       dialcode_contactnumber2: json['dialcode_contactnumber2'],
       dialcode_whatsappnumber: json['dialcode_whatsappnumber'],
+      nature_of_business: json['nature_of_business'],
+      generated_id: json['generated_id'],
     );
   }
 }
@@ -156,6 +164,17 @@ class public1 extends State<public> {
   String? id;
 
   public1(this.id);
+
+  String? linkserver;
+
+  Future Insertdata1(BuildContext context) async {
+    var url =
+        Uri.parse('https://nfc.futureinfotechservices.in/link_server.php');
+    var response = await http.get(url);
+    var message = response.body.toString();
+    print(message.toString());
+    linkserver = message.toString();
+  }
 
   Future<List<multiple_listdata>> downloadJSON_multiple(context) async {
     multiplelist.clear();
@@ -193,7 +212,7 @@ class public1 extends State<public> {
     final companyid = prefs.getString('companyid') ?? '';
     final user_id = prefs.getString('user_id') ?? '';
     var url =
-        Uri.parse('https://nfc.futureinfotechservices.in/profile_list3.php');
+        Uri.parse('https://nfc.futureinfotechservices.in/new_profilelist.php');
     var data = {
       'companyid': '0',
       'user_id': id.toString(),
@@ -239,6 +258,8 @@ class public1 extends State<public> {
         dialcode_contactnumber: api['dialcode_contactnumber'],
         dialcode_contactnumber2: api['dialcode_contactnumber2'],
         dialcode_whatsappnumber: api['dialcode_whatsappnumber'],
+        nature_of_business: api['nature_of_business'],
+        generated_id: api['generated_id'],
       );
       listdata1.add(ab);
     });
@@ -254,6 +275,7 @@ class public1 extends State<public> {
 
   @override
   void initState() {
+    Insertdata1(context);
     multiple_Future = downloadJSON_multiple(context);
     leadlist_Future = leadlistdownloadJSON(context);
     print("Argument :" + id.toString());
@@ -1636,24 +1658,24 @@ class public1 extends State<public> {
                                             Padding(
                                                 padding: EdgeInsets.all(20),
                                                 child: GridView.builder(
+                                                  physics: NeverScrollableScrollPhysics(),
                                                   shrinkWrap: true,
                                                   itemCount:
                                                       multiplelist.length,
                                                   gridDelegate:
                                                       SliverGridDelegateWithFixedCrossAxisCount(
-                                                    crossAxisCount: 3,
-                                                    childAspectRatio:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width /
-                                                            (MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .height /
-                                                                1.3),
+                                                    crossAxisCount: 2,
+                                                    // childAspectRatio:
+                                                    // MediaQuery.of(context)
+                                                    //         .size
+                                                    //         .width /
+                                                    //     (MediaQuery.of(
+                                                    //                 context)
+                                                    //             .size
+                                                    //             .height /
+                                                    //         1.7),
                                                     crossAxisSpacing: 12,
-                                                    // mainAxisSpacing:
-                                                    //   6,
+                                                    mainAxisSpacing: 12,
                                                   ),
                                                   itemBuilder:
                                                       (BuildContext context,
@@ -1664,7 +1686,10 @@ class public1 extends State<public> {
                                                       direction:
                                                           Axis.horizontal,
                                                       children: [
-                                                        InkWell(
+                                                        Container(
+                                                            width: 150,
+                                                            height: 150,
+                                                        child:InkWell(
                                                           onTap: () async {
                                                             Navigator.push(
                                                                 context,
@@ -1682,8 +1707,9 @@ class public1 extends State<public> {
                                                                 .toString(),
                                                             width: 150,
                                                             height: 150,
+                                                            fit: BoxFit.fill,
                                                           ),
-                                                        )
+                                                        ))
                                                       ],
                                                     ));
                                                   },
@@ -1694,6 +1720,56 @@ class public1 extends State<public> {
                             if (multiplelist.isNotEmpty)
                               SizedBox(
                                 height: 60,
+                              ),
+
+                            if (listdata1[0].nature_of_business.toString() !=
+                                '')
+                              Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                      child: Container(
+                                        color: Color(0xffE9E9E9),
+                                        child: Center(
+                                          child: Text(
+                                            'NATURE OF BUSINESS',
+                                            style: TextStyle(
+                                                fontFamily: 'Verdana',
+                                                color: Colors.black,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ]),
+                            if (listdata1[0].nature_of_business.toString() !=
+                                '')
+                              Padding(
+                                  padding: EdgeInsets.fromLTRB(25, 10, 0, 0),
+                                  child: Material(
+                                    // needed
+                                      color: Colors.transparent,
+                                      child: Text(
+                                          listdata1[0]
+                                              .nature_of_business
+                                              .toString(),
+                                          style: TextStyle(
+                                            fontFamily: 'Verdana',
+                                            color: Colors.grey,
+                                            fontSize: MediaQuery.of(context)
+                                                .size
+                                                .width *
+                                                .04,
+                                            // fontWeight:
+                                            //     FontWeight.bold
+                                          )))),
+                            if (listdata1[0].nature_of_business.toString() !=
+                                '')
+                              SizedBox(
+                                height: 15,
                               ),
                             if (listdata1[0].pdf.toString() != '')
                               Row(
@@ -1810,6 +1886,52 @@ class public1 extends State<public> {
                                                   ),
                                                 ]))
                                       ])),
+                            if (listdata1[0].pdf.toString() != '')
+                            SizedBox(height: 10),
+                            Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Container(
+                                    width: 500,
+                                    height: 45,
+                                    color: Color(0xffE9E9E9),
+                                    child: ElevatedButton.icon(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Color(0xff007356),
+                                      ),
+                                      onPressed: () async {
+                                        String text=(linkserver)! + (listdata1[0].generated_id.toString());
+                                        print("jhfjf"+text.toString());
+                                        // print(js.context['location']['href']);
+                                        // js.context.callMethod("alert", [js.context['location']['href']]);
+                                        var contact = listdata1[0]
+                                            .whatsapp
+                                            .toString();
+                                        // var androidUrl =
+                                        //     "whatsapp://send?phone=$contact&text=Hi";
+                                        // var iosUrl =
+                                        //     "https://wa.me/$contact"; //?text=${Uri.parse('Hi, I need some help')}";
+                                        var iosUrl =
+                                            'https://wa.me/?text=${Uri.encodeComponent(text.toString())}';
+                                        js.context.callMethod(
+                                            'open', [iosUrl]);
+                                      },
+                                      icon:
+                                      Image.asset(
+                                        "assects/whatsapplogo1.png",
+                                        height: 65,
+                                        //width: 65,
+                                        //fit: BoxFit.cover,
+                                      ),
+                                      label: Text(
+                                        'SHARE PROFILE',
+                                        style: TextStyle(
+                                            fontSize: 17,
+                                            fontFamily: 'Verdana',
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    )
+                                  //))
+                                )),
                             SizedBox(
                               height: 10,
                             ),
@@ -1819,6 +1941,7 @@ class public1 extends State<public> {
                                 child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
+                                      //Spacer(),
                                       Text(
                                         "Powered by ",
                                         style: TextStyle(
@@ -1828,8 +1951,42 @@ class public1 extends State<public> {
                                           //fontWeight: FontWeight.bold
                                         ),
                                       ),
-                                      Image.asset('assects/etouch_cards.jpg',
+                                      Image.asset('assects/etouch_cardlogo.png',
                                           width: 140, height: 80),
+                                      // Spacer(),
+                                      // Container(
+                                      //     height: 70,
+                                      //     width: 70,
+                                      //     child: Material(
+                                      //       // needed
+                                      //       color: Colors.transparent,
+                                      //       child: InkWell(
+                                      //         onTap: () async {
+                                      //           String text=(linkserver)! + (listdata1[0].generated_id.toString());
+                                      //           print("jhfjf"+text.toString());
+                                      //           // print(js.context['location']['href']);
+                                      //           // js.context.callMethod("alert", [js.context['location']['href']]);
+                                      //           var contact = listdata1[0]
+                                      //               .whatsapp
+                                      //               .toString();
+                                      //           // var androidUrl =
+                                      //           //     "whatsapp://send?phone=$contact&text=Hi";
+                                      //           // var iosUrl =
+                                      //           //     "https://wa.me/$contact"; //?text=${Uri.parse('Hi, I need some help')}";
+                                      //           var iosUrl =
+                                      //               'https://wa.me/?text=${Uri.encodeComponent(text.toString())}';
+                                      //           js.context.callMethod(
+                                      //               'open', [iosUrl]);
+                                      //         }, // needed
+                                      //         child: Image.asset(
+                                      //           "assects/whatsappshare2.png",
+                                      //           height: 70,
+                                      //           width: 70,
+                                      //           fit: BoxFit.cover,
+                                      //         ),
+                                      //       ),
+                                      //     )),
+                                      // Spacer(),
                                     ])),
                           ],
                         ),
@@ -1877,7 +2034,7 @@ class public1 extends State<public> {
 
                                   final vCardContent = '''BEGIN:VCARD
 VERSION:3.0
-N:${listdata1[0].cusname.toString() ?? ''}
+FN:${listdata1[0].cusname.toString() ?? ''}
 ORG:${listdata1[0].companyname.toString() ?? ''}
 TEL;TYPE=WORK,VOICE:${listdata1[0].phone.toString() ?? ''}
 TEL;TYPE=HOME,VOICE:${listdata1[0].mobile.toString() ?? ''}
@@ -1894,10 +2051,13 @@ TEL;WORK;FAX:${listdata1[0].mobile.toString() ?? ''}
 EMAIL;INTERNET;PREF:${listdata1[0].email.toString() ?? ''}
 URL;WORK;PREF:${listdata1[0].website.toString() ?? ''}
 END:VCARD''';
-
+                                  bool isAndroid = Theme.of(context).platform ==
+                                      TargetPlatform.android;
                                   final encodedContent = (kIsWeb)
-                                      ? utf8.encode(vCardContent)
-                                      : utf8.encode(vCardContentIOS);
+                                      ? (isAndroid)
+                                          ? utf8.encode(vCardContent)
+                                          : utf8.encode(vCardContentIOS)
+                                      : '';
 
                                   final blob =
                                       html.Blob([encodedContent], 'text/vcard');

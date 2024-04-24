@@ -1,11 +1,11 @@
 {
-    "name": "nfccard",
-    "short_name": "nfccard",
+    "name": "EtouchCards",
+    "short_name": "EtouchCards",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Empower Your Networking with Smart NFC Technology.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
