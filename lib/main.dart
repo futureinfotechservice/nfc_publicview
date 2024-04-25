@@ -60,9 +60,33 @@ class _MyAppState extends State<MyApp> {
     });
     print("Useridtest : " + reportlist[0].user_id.toString());
     print("Navigationtest : " + reportlist[0].navigation.toString());
+    if(reportlist[0].navigation.toString() == "public view")
+    {
+    Card_Insertdata(reportlist[0].user_id.toString(),reportlist[0].navigation.toString());
+    }
     return reportlist;
   }
+  Future Card_Insertdata(String user_id,String navigation) async {
 
+    var url = Uri.parse(
+        'https://nfc.futureinfotechservices.in/cardviews_insert.php');
+    var data = {
+      'user_id': user_id.toString(),
+      'navigation_type': navigation.toString(),
+    };
+    var response = await http.post(url, body: json.encode(data));
+    var message = response.body.toString();
+    print(message.toString());
+    if (message.toString().contains('Insert success')) {
+      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      //     content: Text(message.toString()), backgroundColor: Colors.green));
+      // setState(() {});
+    } else {
+      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      //     content: Text(message.toString()), backgroundColor: Colors.red));
+      // setState(() {});
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
