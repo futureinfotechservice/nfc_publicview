@@ -41,7 +41,8 @@ class _MyAppState extends State<MyApp> {
     print("jsgdjasfj" + id.toString());
     reportlist.clear();
     var url = Uri.parse(
-        'https://nfc.futureinfotechservices.in/navigation_credentials1.php');
+        // 'https://nfc.futureinfotechservices.in/navigation_credentials1.php');
+        'https://nfc.futureinfotechservices.in/navigation_credentials3.php');
     var data = {
       'id': id.toString(),
     }; //to load an rowid  {item is the name used in php file}

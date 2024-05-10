@@ -20,14 +20,17 @@ import 'package:path/path.dart' as p;
 
 class listdata {
   String profile_image;
+  String views_count;
 
   listdata({
     required this.profile_image,
+    required this.views_count,
   });
 
   factory listdata.fromJson(Map<String, dynamic> json) {
     return listdata(
       profile_image: json['profile_image'],
+      views_count: json['views_count'],
     );
   }
 }
@@ -281,6 +284,7 @@ class admin_update_profile2 extends State<admin_update_profile> {
   late Future<List> downloadjson_Future;
 
   String profile_image = '';
+  String views_count = '';
 
 
   Future<List<listdata>> downloadJSON(context) async {
@@ -292,7 +296,8 @@ class admin_update_profile2 extends State<admin_update_profile> {
     // print(userid.toString());
     // print(company_id.toString());
     var url =
-        Uri.parse('https://nfc.futureinfotechservices.in/profile_image1.php');
+        Uri.parse('https://nfc.futureinfotechservices.in/profile_image2.php');
+        // Uri.parse('https://nfc.futureinfotechservices.in/profile_image1.php');
 
     var data = {
       // 'userid': userid.toString(),
@@ -304,11 +309,14 @@ class admin_update_profile2 extends State<admin_update_profile> {
     items.forEach((api) {
       final ab = new listdata(
         profile_image: api['profile_image'],
+        views_count: api['views_count'],
       );
       reportlist.add(ab);
     });
     profile_image = reportlist[0].profile_image.toString();
-    // print(reportlist[0].profile_image.toString());
+    views_count = reportlist[0].views_count.toString();
+    print(reportlist[0].profile_image.toString());
+    print(reportlist[0].views_count.toString());
     return reportlist;
   }
 
@@ -875,6 +883,80 @@ class admin_update_profile2 extends State<admin_update_profile> {
                     //  ])
                   ])),
               actions: [
+                Padding(
+                    padding: _isMobile?EdgeInsets.all(8):EdgeInsets.all(15),
+                    child: Container(
+                        height:_isMobile?20:16,
+                        padding:  _isMobile?EdgeInsets.all(4):EdgeInsets.only(left:8,right:8,top:4,bottom: 4),
+                        decoration: BoxDecoration(
+                          color: Colors.teal,
+                          // borderRadius: BorderRadius.circular(15),
+                        ), //BoxDecoration
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                width: 2,
+                              ),
+                              _isMobile
+                                  ? Container(
+                                  width: 42,
+                                  child: Text("Card Viewed",
+                                      softWrap: true,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 3,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 11,
+                                        color: Colors.white,
+                                        //fontWeight: FontWeight.bold,
+                                      )))
+                                  :
+                              Text("Card Viewed",
+                                  softWrap: true,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 3,
+                                  textAlign: TextAlign.end,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.white,
+                                    //fontWeight: FontWeight.bold,
+                                  )),
+                              // SizedBox(
+                              //   width: 2,
+                              // ),
+                              Text(" :",
+                                  //textAlign: TextAlign.end,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  )),
+                              SizedBox(
+                                width: 4,
+                              ),
+                              FutureBuilder(
+                                  future: report_Future,
+                                  builder: (context, snapshot) {
+                                    return snapshot.hasData
+                                        ? Text(views_count,
+                                        textAlign: TextAlign.end,
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.yellow,
+                                          fontWeight: FontWeight.bold,
+                                        ))
+                                        : Text('0',
+                                        textAlign: TextAlign.end,
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.yellow,
+                                          fontWeight: FontWeight.bold,
+                                        ));
+                                  }),
+
+                            ]))),
                 InkWell(
                   onTap: () {},
                   child: Padding(

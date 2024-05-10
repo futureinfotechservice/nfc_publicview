@@ -37,6 +37,7 @@ class multiple_listdata {
 }
 
 class listdata2 {
+  String user_name;
   String id;
   String cusname;
   String companyname;
@@ -72,6 +73,7 @@ class listdata2 {
   String generated_id;
 
   listdata2({
+    required this.user_name,
     required this.id,
     required this.cusname,
     required this.companyname,
@@ -109,6 +111,7 @@ class listdata2 {
 
   factory listdata2.fromJson(Map<String, dynamic> json) {
     return listdata2(
+      user_name: json['user_name'],
       id: json['id'],
       cusname: json['cusname'],
       companyname: json['companyname'],
@@ -165,7 +168,7 @@ class public1 extends State<public> {
 
   public1(this.id);
 
-  String? linkserver;
+  String linkserver="";
 
   Future Insertdata1(BuildContext context) async {
     var url =
@@ -212,7 +215,8 @@ class public1 extends State<public> {
     final companyid = prefs.getString('companyid') ?? '';
     final user_id = prefs.getString('user_id') ?? '';
     var url =
-        Uri.parse('https://nfc.futureinfotechservices.in/new_profilelist.php');
+        // Uri.parse('https://nfc.futureinfotechservices.in/new_profilelist.php');
+        Uri.parse('https://nfc.futureinfotechservices.in/new_profilelist1.php');
     var data = {
       'companyid': '0',
       'user_id': id.toString(),
@@ -227,6 +231,7 @@ class public1 extends State<public> {
 
     items.forEach((api) {
       final ab = new listdata2(
+        user_name: api['user_name'],
         id: api['id'],
         cusname: api['full_name'],
         companyname: api['company_name'],
@@ -1899,7 +1904,12 @@ class public1 extends State<public> {
                                         backgroundColor: Color(0xff007356),
                                       ),
                                       onPressed: () async {
-                                        String text=(linkserver)! + (listdata1[0].generated_id.toString());
+                                        print("linkserver value :"+linkserver.toString());
+                                        String text= ((linkserver=="")?"https://etouchcards.com/publicview/#/":linkserver)! +
+                                            ((listdata1[0].user_name.toString() == '')
+                                                ? (listdata1[0].generated_id.toString())
+                                                : (listdata1[0].user_name.toString()));
+                                        //String text=(linkserver)! + (listdata1[0].generated_id.toString());
                                         print("jhfjf"+text.toString());
                                         // print(js.context['location']['href']);
                                         // js.context.callMethod("alert", [js.context['location']['href']]);
